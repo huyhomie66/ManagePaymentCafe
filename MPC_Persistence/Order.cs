@@ -9,11 +9,11 @@ namespace MPC_Persistence
     }
     public class Order
     {
-        private int _OrderId ;
+        private int? _OrderId ;
         private DateTime _OrderDate ;
         private Table _OrderTable ;
        private List<Item> _ItemsList ;
-        public int OrderId { 
+        public int? OrderId { 
         get
         {
             return _OrderId;

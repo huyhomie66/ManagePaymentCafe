@@ -1,0 +1,8 @@
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_Persistence\bin\Debug\netstandard2.0\MPC_Persistence.deps.json
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_Persistence\bin\Debug\netstandard2.0\MPC_Persistence.dll
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_Persistence\bin\Debug\netstandard2.0\MPC_Persistence.pdb
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_Persistence\obj\Debug\netstandard2.0\MPC_Persistence.csproj.CoreCompileInputs.cache
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_Persistence\obj\Debug\netstandard2.0\MPC_Persistence.AssemblyInfoInputs.cache
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_Persistence\obj\Debug\netstandard2.0\MPC_Persistence.AssemblyInfo.cs
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_Persistence\obj\Debug\netstandard2.0\MPC_Persistence.dll
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_Persistence\obj\Debug\netstandard2.0\MPC_Persistence.pdb

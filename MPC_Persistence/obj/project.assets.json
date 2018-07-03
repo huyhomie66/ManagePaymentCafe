@@ -183,11 +183,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\ổ c rác lần 2\\ProjectSem1\\ManagePaymentCafe\\MPC_Persistence\\MPC_Persistence.csproj",
+      "projectUniqueName": "C:\\Users\\dell\\Desktop\\ProjectSem1\\ManagePaymentCafe\\MPC_Persistence\\MPC_Persistence.csproj",
       "projectName": "MPC_Persistence",
-      "projectPath": "d:\\ổ c rác lần 2\\ProjectSem1\\ManagePaymentCafe\\MPC_Persistence\\MPC_Persistence.csproj",
+      "projectPath": "C:\\Users\\dell\\Desktop\\ProjectSem1\\ManagePaymentCafe\\MPC_Persistence\\MPC_Persistence.csproj",
       "packagesPath": "C:\\Users\\dell\\.nuget\\packages\\",
-      "outputPath": "d:\\ổ c rác lần 2\\ProjectSem1\\ManagePaymentCafe\\MPC_Persistence\\obj\\",
+      "outputPath": "C:\\Users\\dell\\Desktop\\ProjectSem1\\ManagePaymentCafe\\MPC_Persistence\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

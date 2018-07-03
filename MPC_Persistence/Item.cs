@@ -8,8 +8,8 @@ namespace MPC_Persistence
     }
     public class Item : Item_Category
     {
-        private int _ItemId;
-        public int ItemId{
+        private int? _ItemId;
+        public int? ItemId{
             get{
                 return _ItemId;
 

@@ -9,8 +9,8 @@ namespace MPC_Persistence
 }
      public class Table
     {
-       private int _Table_Id;
-       public int Table_Id{
+       private int? _Table_Id;
+       public int? Table_Id{
            get{
                return _Table_Id;
            }

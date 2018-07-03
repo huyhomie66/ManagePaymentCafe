@@ -10,11 +10,12 @@ namespace PL_Console
         static void Main(string[] args)
         {
             short mainChoose = 0, imChoose;
+            string[] login ={ ".Login","Exit."};
             string[] mainMenu = { "Item Management", "Add Customer (using stored procedure)", "Create Order (using Transaction)", "Exit" };
             string[] imMenu = { "Get By Item Id", "Get All Items", "Search By Item Name", "Exit" };
-            ItemBL ibl = new ItemBL();
-            CustomerBL cbl = new CustomerBL();
-            OrderBL obl = new OrderBL();
+            AccountBL account = new AccountBL();
+            TableBL table = new TableBL();
+
             List<Item> lst;
             do
             {
