@@ -22,7 +22,7 @@ namespace DAL
             MySqlTransaction trans = connection.BeginTransaction();
             cmd.Transaction = trans;
             MySqlDataReader reader = null;
-            if (order.OrderTable == null || order.OrderTable.== null || order.OrderTable.TableName == "")
+            if (order.OrderTable == null || order.OrderTable.TableName == null || order.OrderTable.TableName == "")
             {
                 //set default customer with customer id = 1
                 order.OrderTable = new Table() { Table_Id = 1 };
@@ -32,7 +32,7 @@ namespace DAL
                 if (order.OrderTable.Table_Id == null)
                 {
                     //Insert new Tables
-                    cmd.CommandText = @"insert into Tables(table_name )
+                    cmd.CommandText = @"insert into Tables(table_name, table_status )
                             values ('" + order.OrderTable.TableName + "' );";
                     cmd.ExecuteNonQuery();
                     //Get new tables id
@@ -46,16 +46,18 @@ namespace DAL
                 }
                 else
                 {
-                    order.OrderTable = (new CustomerDAL()).GetById(order.OrderTable.tal ?? 0, DBHelper.GetConnection());
+                    order.OrderTable = (new TableDAL()).GetById(order.OrderTable.Table_Id ?? 0, DBHelper.GetConnection());
                 }
-                if (order.OrderCustomer == null || order.OrderCustomer.CustmerId == null)
+                if (order.OrderTable == null || order.OrderTable.Table_Id== null)
                 {
-                    throw new Exception("Can't find Customer!");
+                    throw new Exception("Can't find table!");
                 }
+
+
                 //Insert Order
-                cmd.CommandText = "insert into Orders(customer_id, order_status) values (@customerId, @orderStatus);";
+                cmd.CommandText = "insert into Orders(table_id, order_status) values (@tableId, @orderStatus);";
                 cmd.Parameters.Clear();
-                cmd.Parameters.AddWithValue("@customerId", order.OrderCustomer.CustmerId);
+                cmd.Parameters.AddWithValue("@tableId", order.OrderTable.Table_Id);
                 cmd.Parameters.AddWithValue("@orderStatus", OrderStatus.CREATE_NEW_ORDER);
                 cmd.ExecuteNonQuery();
                 //get new Order_ID
@@ -89,7 +91,7 @@ namespace DAL
 
                     //insert to Order Details
                     cmd.CommandText = @"insert into OrderDetails(order_id, item_id, unit_price, quantity) values 
-                            (" + order.OrderId + ", " + item.ItemId + ", " + item.ItemPrice + ", " + item.Amount + ");";
+                    (" + order.OrderId + ", " + item.ItemId + ", " + item.ItemPrice + ", " + item.Amount + ");";
                     cmd.ExecuteNonQuery();
 
                     //update amount in Items

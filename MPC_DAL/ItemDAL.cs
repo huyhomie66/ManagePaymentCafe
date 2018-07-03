@@ -7,7 +7,7 @@ namespace DAL
 {
     public static class ItemFilter{
         public const int GET_ALL = 0;
-        public const int FILTER_BY_ITEM_ID= 1;
+        public const int FILTER_BY_ITEM_NAME= 1;
     }
     public class ItemDAL
     {
@@ -56,7 +56,7 @@ namespace DAL
                 case ItemFilter.GET_ALL:
                     query = @"select item_id, item_name, unit_price, amount, item_status from Items";
                     break;
-                case ItemFilter.FILTER_BY_ITEM_ID:
+                case ItemFilter.FILTER_BY_ITEM_NAME:
                     query = @"select item_id, item_name, unit_price, amount from Items where item_name like concat('%',@itemName,'%');";
                     command.Parameters.AddWithValue("@itemName", item.ItemName);
                     break;

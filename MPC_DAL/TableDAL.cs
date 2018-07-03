@@ -45,6 +45,31 @@ namespace DAL
             c.Status= reader.GetInt32("Status");
             return c;
         }
+        public int Addtable(Table t)
+        {
+            int result = 0;
+            MySqlCommand cmd = new MySqlCommand("sp_createTable", DBHelper.OpenConnection());
+            try
+            {
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@tableName", t.TableName);
+                cmd.Parameters["@tableName"].Direction = System.Data.ParameterDirection.Input;
+                cmd.Parameters.AddWithValue("@tableStatus", MySqlDbType.Int16);
+                cmd.Parameters["@customerAddress"].Direction = System.Data.ParameterDirection.Input;
+                cmd.Parameters.AddWithValue("@tableId", MySqlDbType.Int32);
+                cmd.Parameters["@tableId"].Direction = System.Data.ParameterDirection.Output;
+                cmd.ExecuteNonQuery();
+                result = (int) cmd.Parameters["@tableId"].Value;
+            }
+            catch
+            {
 
+            }
+            finally
+            {
+                DBHelper.CloseConnection();
+            }
+            return result;
+        }
     }
 }

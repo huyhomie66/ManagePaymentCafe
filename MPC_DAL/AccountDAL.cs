@@ -45,7 +45,22 @@ namespace DAL
             a.Password = reader.GetString("password");
             return a;
         }
-        
+
+        public Account Login(string username,string password)
+        {
+            query = @"select account_id,username, password,staff_name from Accounts
+                        where user_name = '"+username+"' and a_password = '"+password+"';";
+            DBHelper.OpenConnection();
+            reader = DBHelper.ExecQuery(query);
+            Account account = null;
+            if (reader.Read())
+            {
+                account = GetAccount(reader);
+            }
+            DBHelper.CloseConnection();
+            return account;
+        }
+      
 
     }
 }

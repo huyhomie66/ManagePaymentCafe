@@ -5,58 +5,65 @@ using MPC_Persistence;
 
 namespace DAL
 {
-  
-    
+   public static class CategoryFilter{
+        public const int GETFOOD = 0;
+        public const int  GETDRINK= 1;
+        public const int GETALL =2;
+    }
+
     public class CategoryDAL
     {
         private string query;
         private MySqlDataReader reader;
-        public Item GetItemById(int CategoryId)
+        public Item_Category GetCategoryById(int CategoryId)
         {
-            query = @"select food,drink from Items_Category where category_id=" +  CategoryId + ";";
+            query = @"select category_id ,food,drink from Items_Category where category_id=" +  CategoryId + ";";
             DBHelper.OpenConnection();
             reader = DBHelper.ExecQuery(query);
             Item_Category category = null;
             if (reader.Read())
             {
-                category = GetItem(reader);
+                category = GetCategory(reader);
             }
             DBHelper.CloseConnection();
-            return item;
-        }
-        private Item_Category GetItemCategory(MySqlDataReader reader)
-        {
-            Item_Category category = new Item();
-           category.Food = reader.GetString("Food");
-           category.Drink =reader.GetString("Drink");
             return category;
         }
-        private List<Item> GetItems(MySqlCommand command)
+        private Item_Category GetCategory(MySqlDataReader reader)
         {
-            List<Item> lItem = new List<Item>();
-            reader = command.ExecuteReader();
-            while (reader.Read())
-            {
-                lItem.Add(GetItem(reader));
-            }
-            DBHelper.CloseConnection();
-            return lItem;
+            Item_Category category = new Item_Category();
+           category.Food = reader.GetString("food");
+           category.Drink =reader.GetString("drink");
+             return category;
         }
-        public List<Item> GetItems(int itemFilter, Item item)
+     private List<Item_Category> GetCategory(MySqlCommand command)
+     {
+         List<Item_Category> C = new List<Item_Category>();
+         reader = command.ExecuteReader();
+         while(reader.Read())
+         {
+             C.Add(GetCategory(reader));
+         }
+         DBHelper.CloseConnection();
+         return C;
+     }
+        private List<Item_Category> GetCategory(int filter, Item_Category category)
         {
-            MySqlCommand command = new MySqlCommand("", DBHelper.OpenConnection());
-            switch(itemFilter)
+            MySqlCommand command = new MySqlCommand("",DBHelper.OpenConnection());
+            switch (filter)
             {
-                case ItemFilter.GET_ALL:
-                    query = @"select item_id, item_name, unit_price, amount, item_status from Items";
-                    break;
-                case ItemFilter.FILTER_BY_ITEM_ID:
-                    query = @"select item_id, item_name, unit_price, amount from Items where item_name like concat('%',@itemName,'%');";
-                    command.Parameters.AddWithValue("@itemName", item.ItemName);
-                    break;
+                case CategoryFilter.GETFOOD:
+                query= @"select category_id,food from Items_Category";
+                break;
+                case CategoryFilter.GETDRINK:
+                query= @"select category_id, drink from Item_Category";
+                break;
+                case CategoryFilter.GETALL:
+                 query= @"select category_id, drink, food from Item_Category";
+                break;
+                
             }
-            command.CommandText = query;
-            return GetItems(command);
+            command.CommandText=query;
+            return GetCategory(command);
         }
     }
 }

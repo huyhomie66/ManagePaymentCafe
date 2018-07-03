@@ -1,0 +1,4 @@
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_DAL\obj\Debug\netstandard2.0\MPC_DAL.csprojResolveAssemblyReference.cache
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_DAL\obj\Debug\netstandard2.0\MPC_DAL.csproj.CoreCompileInputs.cache
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_DAL\obj\Debug\netstandard2.0\MPC_DAL.AssemblyInfoInputs.cache
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_DAL\obj\Debug\netstandard2.0\MPC_DAL.AssemblyInfo.cs
