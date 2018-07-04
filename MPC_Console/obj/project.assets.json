@@ -2154,11 +2154,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\ổ c rác lần 2\\ProjectSem1\\ManagePaymentCafe\\MPC_Console\\MPC_Console.csproj",
+      "projectUniqueName": "C:\\Users\\dell\\Desktop\\ProjectSem1\\ManagePaymentCafe\\MPC_Console\\MPC_Console.csproj",
       "projectName": "MPC_Console",
-      "projectPath": "d:\\ổ c rác lần 2\\ProjectSem1\\ManagePaymentCafe\\MPC_Console\\MPC_Console.csproj",
+      "projectPath": "C:\\Users\\dell\\Desktop\\ProjectSem1\\ManagePaymentCafe\\MPC_Console\\MPC_Console.csproj",
       "packagesPath": "C:\\Users\\dell\\.nuget\\packages\\",
-      "outputPath": "d:\\ổ c rác lần 2\\ProjectSem1\\ManagePaymentCafe\\MPC_Console\\obj\\",
+      "outputPath": "C:\\Users\\dell\\Desktop\\ProjectSem1\\ManagePaymentCafe\\MPC_Console\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -2177,11 +2177,11 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "d:\\ổ c rác lần 2\\ProjectSem1\\ManagePaymentCafe\\MPC_BL\\MPC_BL.csproj": {
-              "projectPath": "d:\\ổ c rác lần 2\\ProjectSem1\\ManagePaymentCafe\\MPC_BL\\MPC_BL.csproj"
+            "C:\\Users\\dell\\Desktop\\ProjectSem1\\ManagePaymentCafe\\MPC_BL\\MPC_BL.csproj": {
+              "projectPath": "C:\\Users\\dell\\Desktop\\ProjectSem1\\ManagePaymentCafe\\MPC_BL\\MPC_BL.csproj"
             },
-            "d:\\ổ c rác lần 2\\ProjectSem1\\ManagePaymentCafe\\MPC_Persistence\\MPC_Persistence.csproj": {
-              "projectPath": "d:\\ổ c rác lần 2\\ProjectSem1\\ManagePaymentCafe\\MPC_Persistence\\MPC_Persistence.csproj"
+            "C:\\Users\\dell\\Desktop\\ProjectSem1\\ManagePaymentCafe\\MPC_Persistence\\MPC_Persistence.csproj": {
+              "projectPath": "C:\\Users\\dell\\Desktop\\ProjectSem1\\ManagePaymentCafe\\MPC_Persistence\\MPC_Persistence.csproj"
             }
           }
         }

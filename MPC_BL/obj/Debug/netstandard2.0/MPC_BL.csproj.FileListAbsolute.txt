@@ -1,0 +1,14 @@
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_BL\bin\Debug\netstandard2.0\MPC_BL.deps.json
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_BL\bin\Debug\netstandard2.0\MPC_BL.dll
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_BL\bin\Debug\netstandard2.0\MPC_BL.pdb
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_BL\bin\Debug\netstandard2.0\MPC_DAL.dll
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_BL\bin\Debug\netstandard2.0\MPC_Persistence.dll
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_BL\bin\Debug\netstandard2.0\MPC_DAL.pdb
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_BL\bin\Debug\netstandard2.0\MPC_Persistence.pdb
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_BL\obj\Debug\netstandard2.0\MPC_BL.csprojResolveAssemblyReference.cache
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_BL\obj\Debug\netstandard2.0\MPC_BL.csproj.CoreCompileInputs.cache
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_BL\obj\Debug\netstandard2.0\MPC_BL.AssemblyInfoInputs.cache
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_BL\obj\Debug\netstandard2.0\MPC_BL.AssemblyInfo.cs
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_BL\obj\Debug\netstandard2.0\MPC_BL.csproj.CopyComplete
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_BL\obj\Debug\netstandard2.0\MPC_BL.dll
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_BL\obj\Debug\netstandard2.0\MPC_BL.pdb

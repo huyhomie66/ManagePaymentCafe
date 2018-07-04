@@ -14,7 +14,7 @@ namespace DAL
             {
                 connection = new MySqlConnection
                 {
-                    ConnectionString = "server=localhost;user id=huyhomie66;password=123456789;port=3306;database=MPC_SQL;SslMode=None"
+                    ConnectionString = "server=localhost;user id=huydev;password=123456789;port=3306;database=MPC;SslMode=None"
                 };
             }
             return connection;
@@ -33,7 +33,13 @@ namespace DAL
             connection.Open();
             return connection;
         }
-        public static void CloseConnection()
+
+		internal static MySqlDataReader ExcecQuery(string query)
+		{
+			throw new NotImplementedException();
+		}
+
+		public static void CloseConnection()
         {
             if (connection != null) connection.Close();
         }

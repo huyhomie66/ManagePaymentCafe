@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using MySql.Data.MySqlClient;
 using MPC_Persistence;
 
@@ -7,34 +8,10 @@ namespace DAL
 { 
     public class AccountDAL
     {
-        private string query;
+       private string query;
         private MySqlDataReader reader;
-        public Account GetById(int AccountId)
-        {
-            query = @"select account_id, username, password, staffname from Account where account_id="+AccountId+";";
-            DBHelper.OpenConnection();
-            reader = DBHelper.ExecQuery(query);
-            Account a = null;
-            if (reader.Read())
-            {
-                a = GetAccount(reader);
-            }
-            DBHelper.CloseConnection();
-            return a;
-        }
+        private MySqlConnection connection;
 
-        internal Account GetById( int AccountId, MySqlConnection connection)
-        {
-           query = @"select account_id, username, password, staffname from Account where account_id="+AccountId+";";
-    		Account a = null;
-            reader = (new MySqlCommand(query, connection)).ExecuteReader();
-            if (reader.Read())
-            {
-                a = GetAccount(reader);
-            }
-            reader.Close();
-            return a;
-        }   
 		
 		private   Account GetAccount(MySqlDataReader reader)
         {
@@ -48,17 +25,35 @@ namespace DAL
 
         public Account Login(string username,string password)
         {
-            query = @"select account_id,username, password,staff_name from Accounts
-                        where user_name = '"+username+"' and a_password = '"+password+"';";
-            DBHelper.OpenConnection();
-            reader = DBHelper.ExecQuery(query);
-            Account account = null;
-            if (reader.Read())
+             Regex regex = new Regex("[a-zA-Z0-9_]");
+            MatchCollection matchCollectionUsername = regex.Matches(username);
+            MatchCollection matchCollectionPassword = regex.Matches(password);
+            if (matchCollectionUsername.Count <= 0 || matchCollectionPassword.Count <= 0)
             {
-                account = GetAccount(reader);
+                return null;
             }
-            DBHelper.CloseConnection();
-            return account;
+
+            query = @"select * from Account where username = '" + username + "' and password= '" + password + "';";
+
+            Account a = null;
+            using (connection = DBHelper.OpenConnection())
+            {
+                MySqlCommand command = new MySqlCommand(query, connection);
+                using (reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        a = GetAccount(reader);
+                    }   
+                }
+            }
+
+            if (a != null)
+            {
+              
+            }
+
+            return a;
         }
       
 

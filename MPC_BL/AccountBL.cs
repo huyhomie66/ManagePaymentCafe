@@ -8,10 +8,7 @@ namespace MPC_BL
     public class AccountBL
     {
         private AccountDAL Adal = new AccountDAL();
-        public Account GetById(int AccountId)
-        {
-            return Adal.GetById(AccountId);
-        }
+     
 		public Account login( string username, string password)
 		
 		{

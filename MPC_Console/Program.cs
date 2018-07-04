@@ -9,80 +9,97 @@ namespace PL_Console
     {
         static void Main(string[] args)
         {
+            
             short mainChoose = 0, imChoose;
             string[] login ={ ".Login","Exit."};
-            string[] mainMenu = { "Item Management", "Add Customer (using stored procedure)", "Create Order (using Transaction)", "Exit" };
+            string[] mainMenu = { "Item Management", "Add table ", "Create Order ", "Exit" };
             string[] imMenu = { "Get By Item Id", "Get All Items", "Search By Item Name", "Exit" };
             AccountBL account = new AccountBL();
             TableBL table = new TableBL();
+            
 
             List<Item> lst;
-            do
+            Console.Write("nhap user: ");
+            string user= Console.ReadLine();
+            Console.Write("nhap pass: ");
+            string pass = Console.ReadLine();
+            while (true)
             {
-                mainChoose = Menu("Welcome to MPC sytem", mainMenu);
-                switch (mainChoose)
+                if (account.login(user, pass) != null)
                 {
-                    case 1:
-                        do
-                        {
-                          
-                            imChoose = Menu("Item Management", imMenu);
-                            switch (imChoose)
-                            {
-                                case 1:
-                                    Console.Write("\nInput Item Id: ");
-                                    int itemId;
-                                    if (Int32.TryParse(Console.ReadLine(), out itemId))
-                                    {
-                                        Item i = ibl.GetItemById(itemId);
-                                        if (i != null)
-                                        {
-                                            //Console.WriteLine("Item ID: " + i.ItemId);
-                                            Console.WriteLine("Item Name: " + i.ItemName);
-                                            Console.WriteLine("Item Price: " + i.ItemPrice);
-                                            Console.WriteLine("Amount: " + i.Amount);
-                                            Console.WriteLine("Item Status: " + i.Status);
-                                            Console.WriteLine("Item Description: " + i.Description);
-                                        }
-                                        else
-                                        {
-                                            Console.WriteLine("There is no item with id " + itemId);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Your Choose is wrong!");
-                                    }
-                                    Console.WriteLine("\n    Press Enter key to back menu...");
-                                    Console.ReadLine();
-                                    break;
-                                case 2:
-                                    lst = ibl.GetAll();
-                                    Console.WriteLine("\nItem Count: " + lst.Count);
-                                    break;
-                                case 3:
-                                    lst = ibl.GetByName("I");
-                                    Console.WriteLine("\nItem Count By Name: " + lst.Count);
-                                    break;
-                            }
-                        } while (imChoose != imMenu.Length);
-                        break;
-                    case 2:
-                        Customer c = new Customer {CustomerName="Nguyen Thi Nhi", CustomerAddress="Ha Tay"};
-                        Console.WriteLine("Customer ID: " + cbl.AddCustomer(c));
-                        break;
-                    case 3:
-                        Order order = new Order();
-                        order.OrderCustomer = new Customer { CustmerId = null, CustomerName = "Dao Van Duc", CustomerAddress = "Thai Binh" };
-                        order.ItemsList.Add(ibl.GetItemById(2));
-                        order.ItemsList[0].Amount = 1;
-                        order.ItemsList.Add(ibl.GetItemById(3));
-                        order.ItemsList[1].Amount = 2;
-
-                        Console.WriteLine("Create Order: " + (obl.CreateOrder(order) ? "completed!" : "not complete!"));
-                        break;
+                    Console.Write("dang nhap thanh cong");
                 }
-            } while (mainChoose != mainMenu.Length);
+                else
+                {
+                    Console.Write("dang nhap that bai");
+                }
+            }                     
+            // do
+            // {
+            //     mainChoose = Menu("Welcome to MPC sytem", mainMenu);
+            //     switch (mainChoose)
+            //     {
+            //         case 1:
+            //             do
+            //             {
+                          
+            //                 imChoose = Menu("Item Management", imMenu);
+            //                 switch (imChoose)
+            //                 {
+            //                     case 1:
+            //                         Console.Write("\nInput Item Id: ");
+            //                         int itemId;
+            //                         if (Int32.TryParse(Console.ReadLine(), out itemId))
+            //                         {
+            //                             Item i = ibl.GetItemById(itemId);
+            //                             if (i != null)
+            //                             {
+            //                                 //Console.WriteLine("Item ID: " + i.ItemId);
+            //                                 Console.WriteLine("Item Name: " + i.ItemName);
+            //                                 Console.WriteLine("Item Price: " + i.ItemPrice);
+            //                                 Console.WriteLine("Amount: " + i.Amount);
+            //                                 Console.WriteLine("Item Status: " + i.Status);
+            //                                 Console.WriteLine("Item Description: " + i.Description);
+            //                             }
+            //                             else
+            //                             {
+            //                                 Console.WriteLine("There is no item with id " + itemId);
+            //                             }
+            //                         }
+            //                         else
+            //                         {
+            //                             Console.WriteLine("Your Choose is wrong!");
+            //                         }
+            //                         Console.WriteLine("\n    Press Enter key to back menu...");
+            //                         Console.ReadLine();
+            //                         break;
+            //                     case 2:
+            //                         lst = ibl.GetAll();
+            //                         Console.WriteLine("\nItem Count: " + lst.Count);
+            //                         break;
+            //                     case 3:
+            //                         lst = ibl.GetByName("I");
+            //                         Console.WriteLine("\nItem Count By Name: " + lst.Count);
+            //                         break;
+            //                 }
+            //             } while (imChoose != imMenu.Length);
+            //             break;
+            //         case 2:
+            //             Customer c = new Customer {CustomerName="Nguyen Thi Nhi", CustomerAddress="Ha Tay"};
+            //             Console.WriteLine("Customer ID: " + cbl.AddCustomer(c));
+            //             break;
+            //         case 3:
+            //             Order order = new Order();
+            //             order.OrderCustomer = new Customer { CustmerId = null, CustomerName = "Dao Van Duc", CustomerAddress = "Thai Binh" };
+            //             order.ItemsList.Add(ibl.GetItemById(2));
+            //             order.ItemsList[0].Amount = 1;
+            //             order.ItemsList.Add(ibl.GetItemById(3));
+            //             order.ItemsList[1].Amount = 2;
+
+            //             Console.WriteLine("Create Order: " + (obl.CreateOrder(order) ? "completed!" : "not complete!"));
+            //             break;
+            //     }
+            // } while (mainChoose != mainMenu.Length);
         }
 
         private static short Menu(string title, string[] menuItems)

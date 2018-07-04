@@ -9,48 +9,6 @@ namespace DAL
     {    
         	public bool UpdateOrder(Order order)
 		{
-            // if (order == null || order.ItemsList == null || order.ItemsList.Count == 0|| order.OrderTable.Table_Id==0)
-
-            // {
-            //     return false;
-            // }
-            //     bool result = true;
-			//   MySqlConnection connection = DBHelper.OpenConnection();
-            // MySqlCommand cmd = connection.CreateCommand();
-            // cmd.Connection = connection;
-            //      cmd.CommandText = "lock tables Items_Category write, Account write, Tables write, Orders write, Items write, OrderDetails write;";
-			// 	cmd.ExecuteNonQuery();
-			// 	MySqlTransaction trans = connection.BeginTransaction();
-			// 	cmd.Transaction = trans;
-            //     MySqlTransaction reader = null;
-            
-            //     // Update order
-            //     try
-            //     {
-            //          cmd.CommandText = "insert into Orders(table_id, order_status) values (@tableId, @orderStatus);";
-            //     cmd.Parameters.Clear();
-            //     //check id table
-            //         reader = cmd.ExecuteReader();
-            //         if (!reader.Read())
-            //         {
-            //          throw new Exception("Wrong table id");
-                 
-            //         } order.OrderTable.Table_Id = reader.GetInt32("table_id");
-            //         reader.Close();
-            //     cmd.Parameters.AddWithValue("@tableId", order.OrderTable.Table_Id);
-            //         trans.Commit();
-            //     result = true;
-            //     }
-            //     catch (System.Exception)
-            //     {
-                    
-            //         throw;
-            //     }
-            //     finally
-            //     {
-                    
-            //     }
-			// return result;
             
             if (order == null || order.ItemsList == null || order.ItemsList.Count == 0)
             {
@@ -94,10 +52,12 @@ namespace DAL
                     throw new Exception("Can't find table!");
                 }
 
+                  Table t = new Table();
+                    List<Table> tb = new List<Table>();
+                //Update Order
 
-                //Insert Order
-
-                cmd.CommandText = "insert into Orders(table_id, order_status) values (@tableId, @orderStatus);";
+                cmd.CommandText = @"update Orders set table_id = @tableId where table_id =" + t.Table_Id + ";";
+               
                 cmd.Parameters.Clear();
                 //check id table
                     reader = cmd.ExecuteReader();
@@ -108,7 +68,7 @@ namespace DAL
                     } order.OrderTable.Table_Id = reader.GetInt32("table_id");
                     reader.Close();
                 cmd.Parameters.AddWithValue("@tableId", order.OrderTable.Table_Id);
-                cmd.Parameters.AddWithValue("@orderStatus", OrderStatus.CREATE_NEW_ORDER);
+                cmd.Parameters.AddWithValue("@orderStatus", OrderStatus.UPDATE_ORDER);
                 cmd.ExecuteNonQuery();
                 cmd.CommandText = "select LAST_INSERT_ID() as order_id";
                 if (reader.Read())
@@ -120,7 +80,7 @@ namespace DAL
                 //insert Order Details table
                 foreach (var item in order.ItemsList)
                 {
-                    if (item.ItemId == null || item.Amount <= 0)
+                    if (item.ItemId == null || item.Amount <= 0 )
                     {
                         throw new Exception("Not Exists Item");
                     }
@@ -177,12 +137,12 @@ namespace DAL
             return result;
         }
 		
-        public bool CreateOrder(Order order)
+        public bool CreateOrder( Order order)
         {
-            if (order == null || order.ItemsList == null || order.ItemsList.Count == 0)
-            {
-                return false;
-            }
+            // if (order == null || order.ItemsList == null || order.ItemsList.Count == 0)
+            // {
+            //     return false;
+            // }
             bool result = true;
             MySqlConnection connection = DBHelper.OpenConnection();
             MySqlCommand cmd = connection.CreateCommand();
@@ -193,10 +153,10 @@ namespace DAL
             MySqlTransaction trans = connection.BeginTransaction();
             cmd.Transaction = trans;
             MySqlDataReader reader = null;
-            if (order.OrderTable == null || order.OrderTable.TableName == null || order.OrderTable.TableName == "")
-            {
-                order.OrderTable = new Table() { Table_Id = 1 };
-            }
+            // if (order.OrderTable == null || order.OrderTable.TableName == null || order.OrderTable.TableName == "")
+            // {
+            //     order.OrderTable = new Table() { Table_Id = 1 };
+            // }
             try
             {
                 if (order.OrderTable.Table_Id == null)
@@ -224,8 +184,18 @@ namespace DAL
 
                 //Insert Order
 
-                cmd.CommandText = "insert into Orders(table_id, order_status) values (@tableId, @orderStatus);";
+                cmd.CommandText = "insert into Orders(table_id, order_status,) values (@tableId, @orderStatus);";
                 cmd.Parameters.Clear();
+                //check id table
+                    // reader = cmd.ExecuteReader();
+                    // if (!reader.Read())
+                    // {
+                    //  throw new Exception("Wrong table id");
+                 
+                    // } order.OrderTable.Table_Id = reader.GetInt32("table_id");
+                    // reader.Close();
+                cmd.Parameters.AddWithValue("@tableId", order.OrderTable.Table_Id);
+                cmd.Parameters.AddWithValue("@orderStatus",order.status);
                 //check id table
                     reader = cmd.ExecuteReader();
                     if (!reader.Read())
@@ -234,15 +204,14 @@ namespace DAL
                  
                     } order.OrderTable.Table_Id = reader.GetInt32("table_id");
                     reader.Close();
-                cmd.Parameters.AddWithValue("@tableId", order.OrderTable.Table_Id);
-                cmd.Parameters.AddWithValue("@orderStatus", OrderStatus.CREATE_NEW_ORDER);
+                // cmd.Parameters.AddWithValue("@orderStatus", OrderStatus.CREATE_NEW_ORDER);
                 cmd.ExecuteNonQuery();
-                cmd.CommandText = "select LAST_INSERT_ID() as order_id";
-                if (reader.Read())
-                {
-                    order.OrderId = reader.GetInt32("order_id");
-                }
-                reader.Close();
+                // cmd.CommandText = "select LAST_INSERT_ID() as order_id";
+                // if (reader.Read())
+                // {
+                //     order.OrderId = reader.GetInt32("order_id");
+                // }
+                // reader.Close();
 
                 //insert Order Details table
                 foreach (var item in order.ItemsList)
@@ -268,7 +237,7 @@ namespace DAL
                     item.ItemPrice = reader.GetDecimal("unit_price");
                     reader.Close();
 
-                    //insert to Order Details
+                 //   insert to Order Details
                     cmd.CommandText = @"insert into OrderDetails(order_id, item_id, unit_price, quantity) values 
                     (" + order.OrderId+ ", " + item.ItemId + ", " + item.ItemPrice + ", " + item.Amount + ");";
                     cmd.ExecuteNonQuery();

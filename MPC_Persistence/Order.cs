@@ -6,12 +6,20 @@ namespace MPC_Persistence
     public static class OrderStatus
     {
         public const int CREATE_NEW_ORDER = 1;
+        public const int UPDATE_ORDER=2;
     }
     public class Order
     {
         private int? _OrderId ;
         private DateTime _OrderDate ;
         private  Table _OrderTable ;
+        private int _status;
+        public int status
+        {get{
+            return _status;
+        }set{
+            _status=value;
+        }}
        private List<Item> _ItemsList ;
         public int? OrderId { 
         get
