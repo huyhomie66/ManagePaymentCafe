@@ -19,13 +19,13 @@ namespace PL_Console
             List<Item> lst;
             do
             {
-                mainChoose = Menu(" Order Management System - OMS", mainMenu);
+                mainChoose = Menu("Welcome to MPC sytem", mainMenu);
                 switch (mainChoose)
                 {
                     case 1:
                         do
                         {
-                            // if (ibl == null) ibl = new ItemBL();
+                          
                             imChoose = Menu("Item Management", imMenu);
                             switch (imChoose)
                             {

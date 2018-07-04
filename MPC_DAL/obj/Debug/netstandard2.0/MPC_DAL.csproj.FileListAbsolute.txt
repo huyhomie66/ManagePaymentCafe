@@ -2,3 +2,11 @@ C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_DAL\obj\Debug\netstandar
 C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_DAL\obj\Debug\netstandard2.0\MPC_DAL.csproj.CoreCompileInputs.cache
 C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_DAL\obj\Debug\netstandard2.0\MPC_DAL.AssemblyInfoInputs.cache
 C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_DAL\obj\Debug\netstandard2.0\MPC_DAL.AssemblyInfo.cs
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_DAL\bin\Debug\netstandard2.0\MPC_DAL.deps.json
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_DAL\bin\Debug\netstandard2.0\MPC_DAL.dll
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_DAL\bin\Debug\netstandard2.0\MPC_DAL.pdb
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_DAL\bin\Debug\netstandard2.0\MPC_Persistence.dll
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_DAL\bin\Debug\netstandard2.0\MPC_Persistence.pdb
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_DAL\obj\Debug\netstandard2.0\MPC_DAL.csproj.CopyComplete
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_DAL\obj\Debug\netstandard2.0\MPC_DAL.dll
+C:\Users\dell\Desktop\ProjectSem1\ManagePaymentCafe\MPC_DAL\obj\Debug\netstandard2.0\MPC_DAL.pdb

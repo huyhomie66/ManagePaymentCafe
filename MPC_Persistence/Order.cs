@@ -11,7 +11,7 @@ namespace MPC_Persistence
     {
         private int? _OrderId ;
         private DateTime _OrderDate ;
-        private Table _OrderTable ;
+        private  Table _OrderTable ;
        private List<Item> _ItemsList ;
         public int? OrderId { 
         get
