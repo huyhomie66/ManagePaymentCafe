@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using MPC_Persistence;
 
-namespace DAL
+namespace MPC_DAL
 {
    public static class CategoryFilter{
         public const int GETFOOD = 0;
@@ -18,14 +18,14 @@ namespace DAL
         public Item_Category GetCategoryById(int CategoryId)
         {
             query = @"select category_id ,food,drink from Items_Category where category_id=" +  CategoryId + ";";
-            DBHelper.OpenConnection();
-            reader = DBHelper.ExecQuery(query);
+            DbConfiguration.OpenConnection();
+            reader = DbConfiguration.ExecQuery(query);
             Item_Category category = null;
             if (reader.Read())
             {
                 category = GetCategory(reader);
             }
-            DBHelper.CloseConnection();
+            DbConfiguration.CloseConnection();
             return category;
         }
         private Item_Category GetCategory(MySqlDataReader reader)
@@ -43,12 +43,12 @@ namespace DAL
          {
              C.Add(GetCategory(reader));
          }
-         DBHelper.CloseConnection();
+         DbConfiguration.CloseConnection();
          return C;
      }
         private List<Item_Category> GetCategory(int filter, Item_Category category)
         {
-            MySqlCommand command = new MySqlCommand("",DBHelper.OpenConnection());
+            MySqlCommand command = new MySqlCommand("",DbConfiguration.OpenConnection());
             switch (filter)
             {
                 case CategoryFilter.GETFOOD:

@@ -2,132 +2,57 @@
 using System.Collections.Generic;
 using MPC_Persistence;
 using MPC_BL;
+using MPC_DAL;
+using System.Text;
 
 namespace PL_Console
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            
-            short mainChoose = 0, imChoose;
-            string[] login ={ ".Login","Exit."};
-            string[] mainMenu = { "Item Management", "Add table ", "Create Order ", "Exit" };
-            string[] imMenu = { "Get By Item Id", "Get All Items", "Search By Item Name", "Exit" };
-            AccountBL account = new AccountBL();
-            TableBL table = new TableBL();
-            
+	class Program
+	{
+		PayoutConsole pc = new PayoutConsole();
+		OrderConsole oc = new OrderConsole();
+		LoginConsole lc = new LoginConsole();
+		 static void Main(string[] args)
+		{
+			MENU();
+		}
+		public static void MENU()
+		{
+			short mainChoose = 0;
+			string[] login = { "Login", "Exit." };
+			do
+			{
+				mainChoose = OrderConsole.Menu("Welcom to management cafe restaurent system !", login);
+				switch (mainChoose)
+				{
 
-            List<Item> lst;
-            Console.Write("nhap user: ");
-            string user= Console.ReadLine();
-            Console.Write("nhap pass: ");
-            string pass = Console.ReadLine();
-            while (true)
-            {
-                if (account.login(user, pass) != null)
-                {
-                    Console.Write("dang nhap thanh cong");
-                }
-                else
-                {
-                    Console.Write("dang nhap that bai");
-                }
-            }                     
-            // do
-            // {
-            //     mainChoose = Menu("Welcome to MPC sytem", mainMenu);
-            //     switch (mainChoose)
-            //     {
-            //         case 1:
-            //             do
-            //             {
-                          
-            //                 imChoose = Menu("Item Management", imMenu);
-            //                 switch (imChoose)
-            //                 {
-            //                     case 1:
-            //                         Console.Write("\nInput Item Id: ");
-            //                         int itemId;
-            //                         if (Int32.TryParse(Console.ReadLine(), out itemId))
-            //                         {
-            //                             Item i = ibl.GetItemById(itemId);
-            //                             if (i != null)
-            //                             {
-            //                                 //Console.WriteLine("Item ID: " + i.ItemId);
-            //                                 Console.WriteLine("Item Name: " + i.ItemName);
-            //                                 Console.WriteLine("Item Price: " + i.ItemPrice);
-            //                                 Console.WriteLine("Amount: " + i.Amount);
-            //                                 Console.WriteLine("Item Status: " + i.Status);
-            //                                 Console.WriteLine("Item Description: " + i.Description);
-            //                             }
-            //                             else
-            //                             {
-            //                                 Console.WriteLine("There is no item with id " + itemId);
-            //                             }
-            //                         }
-            //                         else
-            //                         {
-            //                             Console.WriteLine("Your Choose is wrong!");
-            //                         }
-            //                         Console.WriteLine("\n    Press Enter key to back menu...");
-            //                         Console.ReadLine();
-            //                         break;
-            //                     case 2:
-            //                         lst = ibl.GetAll();
-            //                         Console.WriteLine("\nItem Count: " + lst.Count);
-            //                         break;
-            //                     case 3:
-            //                         lst = ibl.GetByName("I");
-            //                         Console.WriteLine("\nItem Count By Name: " + lst.Count);
-            //                         break;
-            //                 }
-            //             } while (imChoose != imMenu.Length);
-            //             break;
-            //         case 2:
-            //             Customer c = new Customer {CustomerName="Nguyen Thi Nhi", CustomerAddress="Ha Tay"};
-            //             Console.WriteLine("Customer ID: " + cbl.AddCustomer(c));
-            //             break;
-            //         case 3:
-            //             Order order = new Order();
-            //             order.OrderCustomer = new Customer { CustmerId = null, CustomerName = "Dao Van Duc", CustomerAddress = "Thai Binh" };
-            //             order.ItemsList.Add(ibl.GetItemById(2));
-            //             order.ItemsList[0].Amount = 1;
-            //             order.ItemsList.Add(ibl.GetItemById(3));
-            //             order.ItemsList[1].Amount = 2;
+					case 1:
+						LoginConsole.Login();
+						CafeManagementSystem();
+						break;
+				}
+			} while (mainChoose != login.Length);
 
-            //             Console.WriteLine("Create Order: " + (obl.CreateOrder(order) ? "completed!" : "not complete!"));
-            //             break;
-            //     }
-            // } while (mainChoose != mainMenu.Length);
-        }
+		}
+		public static void CafeManagementSystem()
+		{
+			short imChoose;
+			string[] mainMenu = { "Order Management", "Payout ", "Exit" };
+			do
+			{
+				imChoose = OrderConsole.Menu(" Cafe Management System ", mainMenu);
+				switch (imChoose)
+				{
+					case 1:
+						OrderConsole.Order();
+						break;
 
-        private static short Menu(string title, string[] menuItems)
-        {
-            short choose = 0;
-            string line = "========================================";
-            Console.WriteLine(line);
-            Console.WriteLine(" " + title);
-            Console.WriteLine(line);
-            for (int i = 0; i < menuItems.Length; i++)
-            {
-                Console.WriteLine(" " + (i + 1) + ". " + menuItems[i]);
-            }
-            Console.WriteLine(line);
-            do
-            {
-                Console.Write("Your choice: ");
-                try
-                {
-                    choose = Int16.Parse(Console.ReadLine());
-                }
-                catch
-                {
-                    Console.WriteLine("Your Choose is wrong!");
-                    continue;
-                }
-            } while (choose <= 0 || choose > menuItems.Length);
-            return choose;
-        }
-    }
+					case 2:
+						PayoutConsole.Payout();
+						break;
+				}
+			} while (imChoose != mainMenu.Length);
+		}
+
+	}
 }

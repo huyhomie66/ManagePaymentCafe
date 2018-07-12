@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using MySql.Data.MySqlClient;
 using MPC_Persistence;
+using System.Text;
 
-namespace DAL
+namespace MPC_DAL
 { 
     public class AccountDAL
     {
        private string query;
         private MySqlDataReader reader;
         private MySqlConnection connection;
-
+    
 		
 		private   Account GetAccount(MySqlDataReader reader)
         {
@@ -23,20 +24,20 @@ namespace DAL
             return a;
         }
 
-        public Account Login(string username,string password)
+		
+
+		public Account Login(string username,string password)
         {
              Regex regex = new Regex("[a-zA-Z0-9_]");
             MatchCollection matchCollectionUsername = regex.Matches(username);
             MatchCollection matchCollectionPassword = regex.Matches(password);
-            if (matchCollectionUsername.Count <= 0 || matchCollectionPassword.Count <= 0)
+            if (matchCollectionUsername.Count <= 0|| matchCollectionPassword.Count <= 0)
             {
                 return null;
             }
-
             query = @"select * from Account where username = '" + username + "' and password= '" + password + "';";
-
             Account a = null;
-            using (connection = DBHelper.OpenConnection())
+            using (connection = DbConfiguration.OpenDefaultConnection())
             {
                 MySqlCommand command = new MySqlCommand(query, connection);
                 using (reader = command.ExecuteReader())
@@ -45,17 +46,10 @@ namespace DAL
                     {
                         a = GetAccount(reader);
                     }   
+                    reader.Close();
                 }
-            }
-
-            if (a != null)
-            {
-              
-            }
-
+            }          
             return a;
-        }
-      
-
+        }     
     }
 }

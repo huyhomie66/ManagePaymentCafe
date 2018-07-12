@@ -1,0 +1,124 @@
+do
+						{
+							imChoose = Menu(" Cafe Management System ", mainMenu);
+							switch (imChoose)
+							{
+								case 1:
+									do
+									{
+										imChoose1 = Menu("Order Management", order);
+										switch (imChoose1)
+										{
+											case 1:
+												Console.WriteLine("Input table Id: ");
+												int Table_Id = Convert.ToInt16(Console.ReadLine());
+												if (tbl.checkById(Table_Id) != null)
+												{
+
+													while (true)
+													{
+
+														Console.WriteLine(" Input Item Id: ");
+														int itemid = Convert.ToInt32(Console.ReadLine());
+														if (itbl.GetItemById(itemid) != null)
+														{
+															itemid = Convert.ToInt32(Console.ReadLine());
+															break;
+														}
+														else
+														{
+															while (true)
+															{
+																Console.WriteLine("wrong item id,pls re-enter: ");
+																itemid = Convert.ToInt32(Console.ReadLine());
+																if (itbl.GetItemById(itemid) != null)
+																{
+																	itemid = Convert.ToInt32(Console.ReadLine());
+																	break;
+																}
+															}
+														}
+														Console.WriteLine("Input quantity item: ");
+														int quantity = Convert.ToInt32(Console.ReadLine());
+														if (itbl.CheckAmount(itemid, quantity) != null)
+														{
+															quantity = Convert.ToInt32(Console.ReadLine());
+															break;
+														}
+														else
+														{
+															Console.WriteLine("exceeds the number of items,pls re-enter:");
+															quantity = Convert.ToInt32(Console.ReadLine());
+															if (itbl.CheckAmount(itemid, quantity) != null)
+															{
+																quantity = Convert.ToInt32(Console.ReadLine());
+																break;
+															}
+														}
+														Console.WriteLine("Do you want to continue input item ?");
+														char c = Convert.ToChar(Console.ReadLine());
+														switch (c)
+														{
+															case 'n':
+																break;
+															case 'N':
+																break;
+															case 'y':
+																continue;
+															case 'Y':
+																continue;
+														}
+													}
+													Console.WriteLine("Input date order: ");
+													DateTime date = Convert.ToDateTime(Console.ReadLine());
+													Console.WriteLine("Do you want to create new order???");
+													char choice = Convert.ToChar(Console.ReadLine());
+													switch (choice)
+													{
+														case 'n':
+															break;
+														case 'N':
+															break;
+														case 'y':
+
+															// ob.CreateOrder(o);
+															Console.WriteLine("Update complete, press any key to back the menu: ");
+															Console.ReadKey();
+															break;
+													}
+												}
+												else
+												{
+													Console.WriteLine("wrong table id");
+													Console.WriteLine("press any key to back the menu");
+													Console.ReadKey();
+												}
+												break;
+											case 2:
+												int orderID;
+												Console.Write("\nInput orderId for update: ");
+												if (Int32.TryParse(Console.ReadLine(), out orderID))
+												{ }
+												break;
+											case 3:
+												Console.Write("\nInput orderrId for delete: ");
+												if (Int32.TryParse(Console.ReadLine(), out orderID))
+												{ }
+												break;
+										}
+									} while (imChoose1 != order.Length);
+									break;
+
+								case 2:
+									do
+									{
+										imChoose2 = Menu("Payout", payout);
+										switch (imChoose2)
+										{
+											case 1:
+												break;
+											case 2:
+												break;
+
+										}
+									} while (imChoose2 != order.Length);

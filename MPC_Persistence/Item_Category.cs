@@ -4,8 +4,8 @@ namespace MPC_Persistence
 {
    
     public class Item_Category
-    {private int? _Category_ID;
-    public int? Category_ID
+    {private int _Category_ID;
+    public int Category_ID
     {
         get{  return _Category_ID;
 

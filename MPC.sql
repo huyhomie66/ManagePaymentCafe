@@ -1,4 +1,4 @@
-drop database if exists MPC;
+	drop database if exists MPC;
 
 create database MPC;
 
@@ -18,7 +18,7 @@ food nvarchar(100) not null,
 drink nvarchar(100) not null
 );
 create table Items(
-	item_id int auto_increment primary key, 
+	item_id int  primary key, 
     item_name nvarchar(200) not null,
     unit_price decimal(20,2) default 0   , 
     amount int not null default 0,
@@ -27,9 +27,9 @@ create table Items(
      constraint fk_Items_Category foreign key( category_id) references Items_Category(category_id)
 );
 create table Tables
-( table_id int auto_increment primary key,
-table_name nvarchar(100),
-	table_status tinyint not null default 0 /*0: trống, 1: đã có người*/
+( table_id int  primary key,
+table_name nvarchar(100) not null,
+table_status tinyint not null default 0 /*0: trống, 1: đã có người*/
 );
 create table Orders(
 	order_id int auto_increment primary key,
@@ -51,26 +51,7 @@ create table OrderDetails(
     constraint fk_OrderDetails_Items foreign key(item_id) references Items(item_id)
 );
 
-delimiter $$
-create trigger tg_before_insert before insert
-	on Items for each row
-    begin
-		if new.amount < 0 then
-            signal sqlstate '45001' set message_text = 'tg_before_insert: amount must > 0';
-        end if;
-    end $$
-delimiter ;
 
-delimiter $$
-create trigger tg_CheckAmount
-	before update on Items
-	for each row
-	begin
-		if new.amount < 0 then
-            signal sqlstate '45001' set message_text = 'tg_CheckAmount: amount must > 0';
-        end if;
-    end $$
-delimiter ;
 
 /*insert data */
 insert into Account(username,password ,staffname ) values 
@@ -106,39 +87,72 @@ insert into Items_Category( food ,drink) values
 ('', 'sting');
  
 select * from Items_Category;
+select amount from Items where  item_id=1 and amount <= 100;
 
-insert into Items(item_name, unit_price, amount, status,category_id) values
-	('khoai tây chiên', 20.000, 100, 1,1),
-    ('hướng dương', 15.000, 50, 1,2),
-    ('bánh ngọt', 20.000, 40, 1,3),
-    ('mỳ ý', 45.000, 50, 1,4),
-    ('hamburger',35.000, 100, 1,5),
-    ('xúc xích',8.000, 100, 1,6),
-    ('sữa chua đanh đá', 25.000, 100, 1,1),
-    ('hoa quả dầm', 20.000, 50, 1,2),
-    ('cafe sữa đá/nóng', 35.000, 100, 1,3),
-    ('mojito bạc hà', 35.000, 100, 1,4),
-    ('mojito việt quất', 35.000, 100, 1,5),
-    ('mojito dâu ', 35.000, 100, 1,6),
-    ('mojito chanh', 35.000, 100, 1,7),
-	('mojito xoài',35.000, 100, 1,8),
-	('mojito kiwi',35.000, 100, 1,9),
-	('trà nhài',7.000, 40, 1,10),
-    ('trà đào',23.000, 100, 1,11),
-    ('trà ô long', 10.000, 30, 1,12),
-	('capuchino', 55.000, 80, 1,13),
-	('caramel', 55.000, 70, 1,14),
-	('mocha', 45.000, 75, 1,15), 
-	('coca', 10.000, 50, 1,16),
-    ('pepsi',10.000, 40, 1,17),
-    ('sting',10.000, 55, 1,18);
+insert into Items(item_id,item_name, unit_price, amount, status,category_id) values
+	(1,'khoai tây chiên', 20.000, 100, 1,1),
+    (2,'hướng dương', 15.000, 50, 1,2),
+    (3,'bánh ngọt', 20.000, 40, 1,3),
+    (4,'mỳ ý', 45.000, 50, 1,4),
+    (5,'hamburger',35.000, 100, 1,5),
+    (6,'xúc xích',8.000, 100, 1,6),
+    (7,'sữa chua đanh đá', 25.000, 100, 1,1),
+    (8,'hoa quả dầm', 20.000, 50, 1,2),
+    (9,'cafe sữa đá/nóng', 35.000, 100, 1,3),
+    (10,'mojito bạc hà', 35.000, 100, 1,4),
+    (11,'mojito việt quất', 35.000, 100, 1,5),
+    (12,'mojito dâu ', 35.000, 100, 1,6),
+    (13,'mojito chanh', 35.000, 100, 1,7),
+	(14,'mojito xoài',35.000, 100, 1,8),
+	(15,'mojito kiwi',35.000, 100, 1,9),
+	(16,'trà nhài',7.000, 40, 1,10),
+    (17,'trà đào',23.000, 100, 1,11),
+    (18,'trà ô long', 10.000, 30, 1,12),
+	(19,'capuchino', 55.000, 80, 1,13),
+	(20,'caramel', 55.000, 70, 1,14),
+	(21,'mocha', 45.000, 75, 1,15), 
+	(22,'coca', 10.000, 50, 1,16),
+    (23,'pepsi',10.000, 40, 1,17),
+    (24,'sting',10.000, 55, 1,18);
 select * from Items;
 
-insert into Tables( table_name,table_status) values
-('bàn 1',0),('bàn 2',0),('bàn 3',0),('bàn 4',0),('bàn 5',0),('bàn 6',0),('bàn 7',0),('bàn 8',0),('bàn 9',0),
-('bàn 10',0)('bàn 11',0),('bàn 12',0),('bàn 13',0),('bàn 14',0),('bàn 15',0),('bàn 16',0),('bàn 17',0),
-('bàn 18',0),('bàn 19',0),('bàn 20',0),('bàn 21',0),('bàn 22',0),('bàn 23',0),('bàn 24',0),('bàn 25',0),('bàn 26',0),
-('bàn 27',0),('bàn 28',0),('bàn 29',0),('bàn 30',0),('bàn 31',0),('bàn 32',0),('bàn 33',0),('bàn 34',0),('bàn 35',0),('bàn 36',0);
+insert into Tables( table_id,table_name,table_status) values
+(1,'bàn 1',0),
+(2,'bàn 2',0),
+(3,'bàn 3',0),
+(4,'bàn 4',0),
+(5,'bàn 5',0),
+(6,'bàn 6',0),
+(7,'bàn 7',0),
+(8,'bàn 8',0),
+(9,'bàn 9',0),
+(10,'bàn 10',0),
+(11,'bàn 11',0),
+(12,'bàn 12',0),
+(13,'bàn 13',0),
+(14,'bàn 14',0),
+(15,'bàn 15',0),
+(16,'bàn 16',0),
+(17,'bàn 17',0),
+(18,'bàn 18',0),
+(19,'bàn 19',0),
+(20,'bàn 20',0),
+(21,'bàn 21',0),
+(22,'bàn 22',0),
+(23,'bàn 23',0),
+(24,'bàn 24',0),
+(25,'bàn 25',0),
+(26,'bàn 26',0),
+(27,'bàn 27',0),
+(28,'bàn 28',0),
+(29,'bàn 29',0),
+(30,'bàn 30',0),
+(31,'bàn 31',0),
+(32,'bàn 32',0),
+(33,'bàn 33',0),
+(34,'bàn 34',0),
+(35,'bàn 35',0),
+(36,'bàn 36',0);
 select * from Tables;
 insert into Orders(table_id, order_status,account_id  ) values
 	(1,0,1),(1,0,2),(1,0,3),
@@ -182,62 +196,8 @@ insert into Orders(table_id, order_status,account_id  ) values
    
 select * from Orders;
 
-insert into OrderDetails(order_id,item_id ,quantity ,unit_price) values
+/*insert into OrderDetails(order_id,item_id ,quantity ,unit_price) values
 	(1, 1, 5, 100.000),
     (1, 2, 2, 30.000),
-    (1, 3, 2, 40.0000);
+    (1, 3, 2, 40.0000);*/
 select * from OrderDetails;
-create user if not exists 'huyhomie66'@'localhost' identified by '123456789';
-grant all on MPC_SQL.* to 'huyhomie66'@'localhost';
--- grant all on Items to 'vtca'@'localhost';
--- grant all on Customers to 'vtca'@'localhost';
--- grant all on Orders to 'vtca'@'localhost';
--- grant all on OrderDetails to 'vtca'@'localhost';
-
-/* INSERT DATA 
-insert into Customers(customer_name, customer_address) values
-	('Nguyen Thi X','Hai Duong'),
-    ('Nguyen Van N','Hanoi'),
-    ('Nguyen Van B','Ho Chi Minh'),
-    ('Nguyen Van A','Hanoi');
-select * from Customers;
-
-insert into Items(item_name, unit_price, amount, item_status) values
-	('Item 1', 12.5, 8, 1),
-    ('Item 2', 62.5, 6, 1),
-    ('Item 3', 31.0, 10, 1),
-    ('Item 4', 24.5, 5, 1),
-    ('Item 5', 7.5, 9, 1);
-select * from Items;
-
-insert into Orders(customer_id, order_status) values
-	(1, 1), (2, 1), (1, 1);
-select * from Orders;
-
-insert into OrderDetails(order_id, item_id, unit_price, quantity) values
-	(1, 1, 12.5, 5), (1, 3, 31.0, 1), (1, 4, 24.5, 2),
-    (2, 2, 62.5, 1), (2, 3, 31.0, 2), (2, 5, 7.5, 4);
-select * from OrderDetails;
-
-/* CREATE & GRANT USER 
-create user if not exists 'vtca'@'localhost' identified by 'vtcacademy';
-grant all on OrderDB.* to 'vtca'@'localhost';
--- grant all on Items to 'vtca'@'localhost';
--- grant all on Customers to 'vtca'@'localhost';
--- grant all on Orders to 'vtca'@'localhost';
--- grant all on OrderDetails to 'vtca'@'localhost';
-
-select item_id from Items order by item_id desc limit 1;
-
-select customer_id, customer_name,
-    ifnull(customer_address, '') as customer_address
-from Customers where customer_id=1;
-                        
-select order_id from Orders order by order_id desc limit 1;
-
-select LAST_INSERT_ID();
-select customer_id from Customers order by customer_id desc limit 1;
-
-update Items set amount=10 where item_id=3;
--- lock table Orders write;
--- unlock tables;
