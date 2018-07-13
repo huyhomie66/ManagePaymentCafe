@@ -28,13 +28,13 @@ namespace PL_Console
 
 					case 1:
 						LoginConsole.Login();
-						CafeManagementSystem();
+						// CafeManagementSystem();
 						break;
 				}
 			} while (mainChoose != login.Length);
 
 		}
-		public static void CafeManagementSystem()
+		public static void CafeManagementSystem(Account a)
 		{
 			short imChoose;
 			string[] mainMenu = { "Order Management", "Payout ", "Exit" };
@@ -44,7 +44,7 @@ namespace PL_Console
 				switch (imChoose)
 				{
 					case 1:
-						OrderConsole.Order();
+						OrderConsole.Order(a);
 						break;
 
 					case 2:

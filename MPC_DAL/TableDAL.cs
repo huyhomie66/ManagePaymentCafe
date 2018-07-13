@@ -12,27 +12,27 @@ namespace MPC_DAL
 		private MySqlConnection connection;
 		public Table CheckTableById(int tableId)
 		{
-			// query = @"select * from Tables as t
+			// query = @"select table_name,table_status  as t
 			// 						Order  as o
 			// 						where  t.table_status=0 and
-			// 						t.table_id = o.table_id = "+tableId+";";		
-			query = @"select * from Tables where table_id = "+tableId+";";		
-			Table t = null;		
-			 using (connection = DbConfiguration.OpenDefaultConnection())
-            {
-                MySqlCommand command = new MySqlCommand(query, connection);
-                using (reader = command.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        t = GetTable(reader);
-                    }   
-                    reader.Close();
-                }
-            }
+			// 						t.table_id = o.table_id = " + tableId + ";";
+			query = @"select table_id, table_name,table_status  from Tables where table_id = "+tableId+";";		
+			Table t = null;
+			using (connection = DbConfiguration.OpenDefaultConnection())
+			{
+				MySqlCommand command = new MySqlCommand(query, connection);
+				using (reader = command.ExecuteReader())
+				{
+					if (reader.Read())
+					{
+						t = GetTable(reader);
+					}
+					reader.Close();
+				}
+			}
 			return t;
 		}
-		
+
 		private Table GetTable(MySqlDataReader reader)
 		{
 			Table c = new Table();
@@ -76,7 +76,7 @@ namespace MPC_DAL
 			}
 			finally
 			{
-				DbConfiguration.CloseConnection();
+				DBHelper.CloseConnection();
 			}
 			return result;
 		}

@@ -24,7 +24,28 @@ namespace MPC_DAL
             return a;
         }
 
-		
+			public Account CheckAccountById(int accountId)
+		{
+			query = @" select * from Account where account_id = "+accountId+";";
+
+			Account a = null;
+			using (connection = DbConfiguration.OpenDefaultConnection())
+			{
+				MySqlCommand command = new MySqlCommand(query, connection);
+				using (reader = command.ExecuteReader())
+				{
+					if (reader.Read())
+					{
+						a = GetAccount(reader);
+					}
+					// else
+					// {
+					// 	throw new Exception("This Amount is wrong");
+					// }
+				}
+			}
+			return a;
+		}
 
 		public Account Login(string username,string password)
         {
@@ -36,6 +57,7 @@ namespace MPC_DAL
                 return null;
             }
             query = @"select * from Account where username = '" + username + "' and password= '" + password + "';";
+            
             Account a = null;
             using (connection = DbConfiguration.OpenDefaultConnection())
             {
@@ -44,6 +66,7 @@ namespace MPC_DAL
                 {
                     if (reader.Read())
                     {
+
                         a = GetAccount(reader);
                     }   
                     reader.Close();

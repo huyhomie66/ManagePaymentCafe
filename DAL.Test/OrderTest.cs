@@ -16,28 +16,37 @@ namespace DAL.Test
 		{
 			Item item = new Item();
 			Order order = new Order();
-			order.Tablelist = new List<Table>();
+		
 			order.OrderTable = new Table();
 			order.OrderTable.Table_Id = 1;
 			order.ItemsList = new List<Item>();
+			
 			item.ItemId = 1;
 			item.Amount = 25;
-			order.OrderStatus = 1;
-
+			order.Orderstatus = OrderStatus.Not_Pay_out;
 			order.ItemsList.Add(item);
-			Assert.False(odal.CreateOrder(order));
+			Assert.NotNull(odal.CreateOrder(order));
 
 		}
 		[Fact]
-		public void Update()
+		public void UpdateOrder()
 		{
-		 Order order = new Order();
-		 order.Tablelist = new List<Table>();
-		 order.OrderTable = new Table();
-		 order.OrderTable.Table_Id=1 ;
-		 order.OrderStatus=2;
-		 
+			Item item = new Item();
+			Order order = new Order();
+		
+			order.OrderTable = new Table();
+			order.OrderTable.Table_Id = 1;
+			order.ItemsList = new List<Item>();
+			
+			item.ItemId = 1;
+			item.Amount = 25;
+			order.Orderstatus = OrderStatus.Not_Pay_out;
+			order.ItemsList.Add(item);
+			Assert.NotNull(odal.UpdateOrder(order));
+
 		}
+	
+	
 	}
 
 

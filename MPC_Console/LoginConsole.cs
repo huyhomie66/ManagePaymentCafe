@@ -1,6 +1,8 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using MPC_Persistence;
+using System.IO;
 using MPC_BL;
 using MPC_DAL;
 using System.Text;
@@ -37,39 +39,41 @@ namespace PL_Console
 			}
 			return sb.ToString();
 		}
+		
 		public static void Login()
 		{
+			
+			// o.OrderAccount=new Account();
 			AccountBL account = new AccountBL();
-			Account ap = new Account();
-			Console.Write("Input user: ");
-			ap.Username = Console.ReadLine();
-			Console.Write("Input password: ");
-			ap.Password = hidenpassword();
+			Account a= new Account();
+			
 			while (true)
 			{
-				if (account.login(ap.Username, ap.Password) != null)
+			
+				Console.Write("Input user: ");
+				a.Username = Console.ReadLine();
+				Console.Write("Input password: ");
+				a.Password = hidenpassword();
+				var result =account.login(a.Username, a.Password);
+				if (result != null)
 				{
 					Console.WriteLine("login successfully!!!");
+					Program.CafeManagementSystem(account.login(a.Username, a.Password));
 					break;
 				}
-				else
+				else if(result == null)
 				{
-					while (true)
-					{
-						Console.WriteLine("\n wrong value login, please re-enter: ");
-
-						Console.Write("Input user: ");
-						ap.Username = Console.ReadLine();
-						Console.Write("Input password: ");
-						ap.Password = hidenpassword();
-						if (account.login(ap.Username, ap.Password) != null)
-						{
-							break;
-						}
-					}
-
+					Console.WriteLine("Wrong value, pls re-enter ");
+					// string b = Console.ReadLine();
+					// if( b == "n" || b== "N")
+					// {
+					// 	Program.MENU();
+					// 	break;
+					// }
+					
 				}
 			}
+			
 		}
 	}
 }

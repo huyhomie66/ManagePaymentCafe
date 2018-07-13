@@ -11,9 +11,6 @@ namespace MPC_Persistence
 	{
 
 		public int Table_Id { get; set; }
-
-
-
 		public string TableName { get; set; }
 
 		public int Status { get; set; }

@@ -19,13 +19,13 @@ namespace MPC_DAL
         {
             query = @"select category_id ,food,drink from Items_Category where category_id=" +  CategoryId + ";";
             DbConfiguration.OpenConnection();
-            reader = DbConfiguration.ExecQuery(query);
+            reader = DBHelper.ExecQuery(query);
             Item_Category category = null;
             if (reader.Read())
             {
                 category = GetCategory(reader);
             }
-            DbConfiguration.CloseConnection();
+            DBHelper.CloseConnection();
             return category;
         }
         private Item_Category GetCategory(MySqlDataReader reader)
@@ -43,7 +43,7 @@ namespace MPC_DAL
          {
              C.Add(GetCategory(reader));
          }
-         DbConfiguration.CloseConnection();
+         DBHelper.CloseConnection();
          return C;
      }
         private List<Item_Category> GetCategory(int filter, Item_Category category)

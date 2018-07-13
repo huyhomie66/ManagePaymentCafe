@@ -29,8 +29,13 @@ namespace DAL.Test
         {
             Assert.Null(acdal.Login("'?^%'", "'.:=='"));
         }
+		[Fact]
+		public void TestCheckId()
+		{
+			int accountId = 10;
+			Account a = acdal.CheckAccountById(accountId);
+			Assert.Null(a);		
+		}
 	}
-
-
 }
 

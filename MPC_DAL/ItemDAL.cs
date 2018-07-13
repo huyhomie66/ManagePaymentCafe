@@ -100,7 +100,7 @@ namespace MPC_DAL
 			{
 				lItem.Add(GetItem(reader));
 			}
-			DbConfiguration.CloseConnection();
+			DBHelper.CloseConnection();
 			return lItem;
 		}
 		public List<Item> GetItemsByCategory(int itemFilter, Item item)

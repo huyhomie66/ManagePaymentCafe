@@ -5,25 +5,26 @@ namespace MPC_Persistence
 {
 	public static class OrderStatus
 	{
-		public const int CREATE_NEW_ORDER = 1;
-		public const int UPDATE_ORDER = 2;
+			public const int Pay_out =0;
+		public const int Not_Pay_out= 1;
 	}
 	public class Order
 	{
 		public int total { get; set; }
-		public List<int> listquantity { get; set; }
+//public List<int> listquantity { get; set; }as// toàn viết liên tha liên thiên
 
-		public int OrderStatus { get; set; }
+		public int Orderstatus { get; set; }
 
 		public int OrderId { get; set; }
 		public DateTime OrderDate { get; set; }
 		public Table OrderTable { get; set; }
 
-		public Item OrderItem { get; set; }
+		//public Item OrderItem { get; set; }
 
-		public List<Table> Tablelist { get; set; }
+		// public List<Table> Tablelist { get; set; } // 1 hoas don co nhieu bang ? ak cho nay tao chua sua
+
 		public List<Item> ItemsList { get; set; }
-
+		public Account OrderAccount {get;set;}
 		// public Table this[int i]
 		// {
 		// 	get
@@ -56,5 +57,6 @@ namespace MPC_Persistence
 		{
 			ItemsList = new List<Item>();
 		}
+
 	}
 }
