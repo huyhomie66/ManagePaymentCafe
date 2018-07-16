@@ -64,12 +64,7 @@ namespace PL_Console
 				else if(result == null)
 				{
 					Console.WriteLine("Wrong value, pls re-enter ");
-					// string b = Console.ReadLine();
-					// if( b == "n" || b== "N")
-					// {
-					// 	Program.MENU();
-					// 	break;
-					// }
+					
 					
 				}
 			}

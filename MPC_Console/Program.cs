@@ -12,8 +12,9 @@ namespace PL_Console
 		PayoutConsole pc = new PayoutConsole();
 		OrderConsole oc = new OrderConsole();
 		LoginConsole lc = new LoginConsole();
-		 static void Main(string[] args)
+		static void Main(string[] args)
 		{
+
 			MENU();
 		}
 		public static void MENU()
@@ -36,6 +37,7 @@ namespace PL_Console
 		}
 		public static void CafeManagementSystem(Account a)
 		{
+			
 			short imChoose;
 			string[] mainMenu = { "Order Management", "Payout ", "Exit" };
 			do
@@ -44,11 +46,11 @@ namespace PL_Console
 				switch (imChoose)
 				{
 					case 1:
-						OrderConsole.Order(a);
+						OrderConsole.Order(a); 
 						break;
 
 					case 2:
-						PayoutConsole.Payout();
+						PayoutConsole.Payout(a);
 						break;
 				}
 			} while (imChoose != mainMenu.Length);
