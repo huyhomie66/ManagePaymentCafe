@@ -87,6 +87,7 @@ namespace PL_Console
 					{
 						Console.WriteLine("Item Name: " + item.ItemName + "  -  " + "Quantity: " + item.Amount + " pecie");
 					}
+					Console.WriteLine("Order By: " + a.StaffName);
 					Console.Write("Press any key to back the menu: ");
 					Console.ReadKey();
 					break;
