@@ -12,22 +12,22 @@ namespace PL_Console
 {
 	class OrderConsole
 	{
-		public static bool Add(Account a)
+		public static bool Add(Account a, Order o, Item it, Table t)
 		{
-			Table t = new Table();
-			Item it = new Item();
-			Order o = new Order();
 			OrderBL obl = new OrderBL();
 			TableBL tbl = new TableBL();
 			ItemBL itbl = new ItemBL();
+			o.OrderTable = new Table();
+			o.OrderAccount = new Account();
+			int tableid;
 			while (true)
 			{
 				Console.WriteLine("Input table Id: ");
-				int tableid = Convert.ToInt32(Console.ReadLine());
+				tableid = Convert.ToInt32(Console.ReadLine());
 				var result = tbl.CheckTableById(tableid);
 				if (result != null)
 				{
-					t = tbl.GetTableById(tableid);
+					t = (tbl.GetTableById(tableid));
 					break;
 				}
 				else if (result == null)
@@ -35,6 +35,8 @@ namespace PL_Console
 					Console.WriteLine("Cant find this table or table is not empty!!!");
 				}
 			}
+			o.OrderTable.Table_Id = tableid;
+			o.OrderAccount.Account_Id = a.Account_Id;
 			while (true)
 			{
 				Console.WriteLine(" Input Item Id: ");
@@ -42,7 +44,7 @@ namespace PL_Console
 				Console.WriteLine("Input quantity item: ");
 				int quantity = Convert.ToInt32(Console.ReadLine());
 				obl.AddItemToOrder(itemid, quantity, o);
-				it = itbl.GetItemById(itemid);
+				//it = itbl.GetItemById(itemid);
 				Console.WriteLine("Do you want to continue Add Item? ");
 				string choice2 = Console.ReadLine();
 				if (choice2 == "Y" || choice2 == "y")
@@ -59,23 +61,25 @@ namespace PL_Console
 			switch (choice3)
 			{
 				case 'y':
-					Console.WriteLine("Create Order: " + (obl.CreateOrder(o, a, t) ? "completed!" : "not complete!"));
+					Console.WriteLine("Create Order: " + (obl.CreateOrder(o) ? "completed!" : "not complete!"));
 					Console.WriteLine("Order ID: " + o.OrderId);
 					Console.WriteLine("Order Date: " + o.OrderDate);
 
 					foreach (var item in o.ItemsList)
 					{
 						Console.WriteLine("Item Name: " + item.ItemName + "  -  " + "Quantity: " + item.Amount + " pecie");
-
 					}
-					//Console.WriteLine("Item: " + it.ItemId);
 					Console.WriteLine("Order By: " + a.StaffName);
 					Console.Write("Press any key to back the menu: ");
 					Console.ReadKey();
 					break;
 
 				case 'Y':
-					Console.WriteLine("Create Order: " + (obl.CreateOrder(o, a, t) ? "completed!" : "not complete!"));
+					Console.WriteLine("Create Order: " + (obl.CreateOrder(o) ? "completed!" : "not complete!"));
+					foreach (var item in o.ItemsList)
+					{
+						Console.WriteLine("Item Name: " + item.ItemName + "  -  " + "Quantity: " + item.Amount + " pecie");
+					}
 					Console.Write("Press any key to back the menu: ");
 					Console.ReadKey();
 					break;
@@ -105,25 +109,22 @@ namespace PL_Console
 
 			return true;
 		}
-		public static bool ShowListOrder(Account a, Order o)
-		{
-			// OrderDAL obl = new OrderDAL();
-			// //o = obl.GetOrderById(orderid);
-			// Console.WriteLine("================================================================================");
-			// Console.WriteLine("============================= Order List Infor =================================");
-			// Console.WriteLine("================================================================================");
-			// Console.WriteLine("||Order ID    ||Item Id    ||Item Name    ||Quantity   ||Date Order   || Total  ");
-			// Console.WriteLine("================================================================================");
-			// Console.WriteLine();
-			// foreach (var order in o.ItemsList)
-			// {
-
-			// 	Console.WriteLine("|{0,-10}||{1,-20}||{2,-16}||{3,-17}||{4,-7}|", order.OrderId, item.ItemId, item.ItemName, order.quantity, order.OrderDate);
-
-			// }
-			// Console.WriteLine("================================================================================");
-			// Console.WriteLine("Press any key to back the menu...");
-			// Console.ReadKey();
+		public static bool ShowListOrder(Account a)
+		{		
+			OrderBL orderbl = new OrderBL();
+			List<Order> listorder = orderbl.Getall();			
+			Console.WriteLine("||====================================================================||");
+			Console.WriteLine("||==========================Order List Infor==========================||");
+			Console.WriteLine("||====================================================================||");
+			Console.WriteLine("||Order ID||Account ID||Item ID||Item Price||Quantity||Date Order     ||");
+			Console.WriteLine("||====================================================================||");
+			foreach (var order in listorder)
+			{	
+				Console.WriteLine("||{0,-8}||{1,-9}||{2,-7}||{3,-10}||{4,-8}||{5,-16}||", order.OrderId, order.OrderAccount.Account_Id, order.OrderItem.ItemId, order.OrderItem.ItemPrice, order.OrderItem.Amount, order.OrderDate.ToString("dd/MM/yyyy HH:mm"));				
+			}
+			Console.WriteLine("||====================================================================||");
+			Console.WriteLine("Press any key to back the menu...");
+			Console.ReadKey();
 			return true;
 		}
 		public static void Delete()
@@ -147,13 +148,13 @@ namespace PL_Console
 				switch (imChoose1)
 				{
 					case 1:
-						Add(a);
+						Add(a, o, it, t);
 						break;
 					case 2:
 						Update(a, o);
 						break;
 					case 3:
-						ShowListOrder(a, o);
+						ShowListOrder(a);
 						break;
 				}
 			} while (imChoose1 != order.Length);

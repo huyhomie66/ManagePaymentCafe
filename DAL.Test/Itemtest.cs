@@ -11,12 +11,15 @@ namespace DAL.Test
 		[Fact]
 		public void TestItem()
 		{
-			
-			Item i = itdal.CheckAmount(1,500);
+			Item i = itdal.CheckItemId(1);
 			Assert.Null(i);
-			// Assert.Equal(itemid,i.ItemId);
 		}
-
+		[Fact]
+		public void TestItem1()
+		{
+			Item i = itdal.GetItemById(99);
+			Assert.Null(i);
+		}
 	}
 
 

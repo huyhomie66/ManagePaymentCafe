@@ -16,7 +16,5 @@ namespace MPC_Persistence
 		public int Status { get; set; }
 
 
-
-
 	}
 }

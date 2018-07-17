@@ -8,11 +8,7 @@ namespace MPC_BL
 	public class ItemBL
 	{
 		private ItemDAL idal;
-		public Item GetAmountByItemId(int itemId)
-		{
-			return idal.GetAmountByItemId(itemId);
-		}
-		public ItemBL()
+			public ItemBL()
 		{
 			idal = new ItemDAL();
 		}
@@ -20,17 +16,13 @@ namespace MPC_BL
 		{
 			return idal.GetItemById(itemId);
 		}
-		public List<Item> GetItemsByCategory()
+		public Item CheckItemById(int itemid)
 		{
-			return idal.GetItemsByCategory(ItemFilter.Get_Food, ItemFilter.Get_Drink, null );
-         
+			return idal.CheckItemId(itemid);
 		}
-		public List<Item> GetItemsByCategory(string food, string drink) => idal.GetItemsByCategory(ItemFilter.Get_Food, ItemFilter.Get_Drink, new Item { Food = food, Drink = drink });
-		public  Item CheckAmount(int itemId, int amount)
+		public List<Item> GetAll()
 		{
-			return idal.CheckAmount(itemId, amount);
+			return idal.GetAllItem();
 		}
-
-
 	}
 }

@@ -1,30 +1,25 @@
-	drop database if exists MPC;
+		drop database if exists MPC;
 
 create database MPC;
 
 use MPC;
 	
 create table Account(
-	account_id int auto_increment primary key,
+	account_id int  primary key,
 	username nvarchar(100) not null,
     password nvarchar(100) not null,
     staffname nvarchar(100) not null
     
 );
 
-create table Items_Category
-( category_id int  auto_increment primary key,
-food nvarchar(100) not null,
-drink nvarchar(100) not null
-);
+
 create table Items(
 	item_id int  primary key, 
-    item_name nvarchar(200) not null,
-    unit_price decimal(20,2) default 0   , 
+    item_name nvarchar(200) ,
+    item_price decimal(20,2) default 0   , 
     amount int not null default 0,
-    status tinyint not null , /*0:hết sp, 1:chưa hết sp */
-     category_id int not null,
-     constraint fk_Items_Category foreign key( category_id) references Items_Category(category_id)
+    item_status tinyint not null default 1 /*0:hết sp, 1:chưa hết sp */
+   
 );
 create table Tables
 ( table_id int  primary key,
@@ -32,7 +27,7 @@ table_name nvarchar(100) not null,
 table_status tinyint not null default 0 /*0: trống, 1: đã có người*/
 );
 create table Orders(
-	order_id int auto_increment primary key,
+	order_id int auto_increment primary key ,
     order_date datetime default now(),
     order_status tinyint not null default 0, /*0: chưa thanh toán, 1: đã thanh toán, 2: hủy order*/
     account_id int not null,
@@ -42,81 +37,62 @@ create table Orders(
 );
 
 create table OrderDetails(
-	order_id int not null,
-    item_id int not null,
-    unit_price decimal(20,2) not null ,
-    quantity int not null default 1,
-    constraint pk_OrderDetails primary key(order_id, item_id),
+	order_id int auto_increment not null,
+    item_id int  not null,
+    item_price decimal(20,2) not null ,
+    quantity int not null,
+    constraint pk_OrderDetails primary key(order_id,item_id),
     constraint fk_OrderDetails_Orders foreign key(order_id) references Orders(order_id),
     constraint fk_OrderDetails_Items foreign key(item_id) references Items(item_id)
+    
 );
 
 
 
 /*insert data */
-insert into Account(username,password ,staffname ) values 
-('staff1','123456','An'),
-('staff2','123456','Phương'),
-('staff3','123456','Quân'),
-('staff4','123456','Linh'),
-('staff5','123456','Quyên'),
-('staff6','123456','Quỳnh'),
-('staff7','123456','Ngọc'),
-('staff8','123456','Nhi'),
-('staff9','123456','Bảo');
+insert into Account(account_id,username,password ,staffname ) values 
+(1,'staff1','123456','An'),
+(2,'staff2','123456','Phương'),
+(3,'staff3','123456','Quân'),
+(4,'staff4','123456','Linh'),
+(5,'staff5','123456','Quyên'),
+(6,'staff6','123456','Quỳnh'),
+(7,'staff7','123456','Ngọc'),
+(8,'staff8','123456','Nhi'),
+(9,'staff9','123456','Bảo');
 select * from Account;
 
-insert into Items_Category( food ,drink) values
-('khoai tây chiên','sữa chua đanh đá'),
-('hướng dương','hoa quả dầm'),
-('bánh ngọt','cafe sữa đá/nóng'), 
-('mỳ ý','mojito bạc hà'),
-('hamburger ','mojito việt quất'),
-('xúc xích ','mojito dâu '),
-('', 'mojito chanh'),
-('','mojito xoài'),
-('','mojito kiwi'),
-('', 'trà nhài'),
-('','trà đào'),
-('','trà ô long'),
-('', 'capuchino'),
-('','caramel'),
-('','mocha'),
-('', 'coca'),
-('','pepsi'),
-('', 'sting');
- 
-select * from Items_Category;
-select amount from Items where  item_id=1 and amount <= 100;
 
-insert into Items(item_id,item_name, unit_price, amount, status,category_id) values
-	(1,'khoai tây chiên', 20.000, 100, 1,1),
-    (2,'hướng dương', 15.000, 50, 1,2),
-    (3,'bánh ngọt', 20.000, 40, 1,3),
-    (4,'mỳ ý', 45.000, 50, 1,4),
-    (5,'hamburger',35.000, 100, 1,5),
-    (6,'xúc xích',8.000, 100, 1,6),
-    (7,'sữa chua đanh đá', 25.000, 100, 1,1),
-    (8,'hoa quả dầm', 20.000, 50, 1,2),
-    (9,'cafe sữa đá/nóng', 35.000, 100, 1,3),
-    (10,'mojito bạc hà', 35.000, 100, 1,4),
-    (11,'mojito việt quất', 35.000, 100, 1,5),
-    (12,'mojito dâu ', 35.000, 100, 1,6),
-    (13,'mojito chanh', 35.000, 100, 1,7),
-	(14,'mojito xoài',35.000, 100, 1,8),
-	(15,'mojito kiwi',35.000, 100, 1,9),
-	(16,'trà nhài',7.000, 40, 1,10),
-    (17,'trà đào',23.000, 100, 1,11),
-    (18,'trà ô long', 10.000, 30, 1,12),
-	(19,'capuchino', 55.000, 80, 1,13),
-	(20,'caramel', 55.000, 70, 1,14),
-	(21,'mocha', 45.000, 75, 1,15), 
-	(22,'coca', 10.000, 50, 1,16),
-    (23,'pepsi',10.000, 40, 1,17),
-    (24,'sting',10.000, 55, 1,18);
+
+insert into Items(item_id,item_price, amount,item_name) values
+	(1,20.000, 100,'khoai tây chiên'),
+    (2,15.000, 100,'hướng dương'),
+    (3,20.000, 100,'bánh ngọt'),
+    (4,45.000, 100,'mỳ ý'),
+    (5,35.000, 100,'hamburger'),
+    (6,8.000, 100,'xúc xích'),
+    (7,25.000, 100,'sữa chua đanh đá'),
+    (8,20.000, 100,'hoa quả dầm'),
+    (9,35.000, 100,'cafe sữa đánóng'),
+    (10,35.000, 100,'mojito bạc hà'),
+    (11,35.000, 100,'mojito việt quất'),
+    (12,35.000, 100,'mojito dâu '),
+    (13,35.000, 100,'mojito chanh'),
+	(14,35.000, 100,'mojito xoài'),
+	(15,35.000, 100,'mojito kiwi'),
+	(16,7.000, 100,'trà nhài'),
+    (17,23.000, 100,'trà đào'),
+    (18,10.000, 100,'trà ô long'),
+	(19,55.000, 100,'capuchino'),
+	(20,55.000, 100,'caramel'),
+	(21,45.000, 100,'mocha'), 
+	(22,10.000, 100,'coca'),
+    (23,10.000, 100,'pepsi'),
+    (24,10.000, 100,'sting');
 select * from Items;
 
 insert into Tables( table_id,table_name,table_status) values
+
 (1,'bàn 1',0),
 (2,'bàn 2',0),
 (3,'bàn 3',0),
@@ -154,7 +130,18 @@ insert into Tables( table_id,table_name,table_status) values
 (35,'bàn 35',0),
 (36,'bàn 36',0);
 select * from Tables;
-insert into Orders(table_id, order_status,account_id  ) values
+select *from OrderDetails; 
+
+select *from Orders;
+SELECT  order_date,order_status ,account_id ,table_id , item_id, item_price ,quantity 
+FROM Orders, OrderDetails
+WHERE Orders.order_id = OrderDetails.order_id
+GROUP BY Orders.order_id;
+
+select * from Orders inner join OrderDetails ;
+  
+
+/*insert into Orders(table_id, order_status,account_id  ) values
 	(1,0,1),(1,0,2),(1,0,3),
 	(2,0,1),(2,0,2),(1,0,3),
 	(3,0,1),(3,0,2),(3,0,3),
@@ -195,9 +182,10 @@ insert into Orders(table_id, order_status,account_id  ) values
     (36,0,7),(36,0,8),(36,0,9); 
    
 select * from Orders;
-
-/*insert into OrderDetails(order_id,item_id ,quantity ,unit_price) values
-	(1, 1, 5, 100.000),
-    (1, 2, 2, 30.000),
-    (1, 3, 2, 40.0000);*/
 select * from OrderDetails;
+select * from Items;
+Update Orders set account_id = 2, table_id =1 where order_id = 1;
+Update OrderDetails set item_id = 1, quantity=12 where order_id = 1;
+DELETE  FROM Orders  
+WHERE order_id = 1;*/
+

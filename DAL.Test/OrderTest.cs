@@ -10,22 +10,25 @@ namespace DAL.Test
 	public class OrderUniTest
 	{
 		private OrderDAL odal = new OrderDAL();
+		private AccountDAL acdal = new AccountDAL();
 
 		[Fact]
 		public void CreateOrder()
 		{
 			Item item = new Item();
 			Order order = new Order();
-		
+			Account a = new Account();
+			Table t = new Table();
 			order.OrderTable = new Table();
 			order.OrderTable.Table_Id = 1;
 			order.ItemsList = new List<Item>();
-			
-			item.ItemId = 1;
-			item.Amount = 25;
-			order.Orderstatus = OrderStatus.Not_Pay_out;
+		//	order.quantity = 11111;
+			item.Amount = 9911111;
+			item.ItemId = 11111;
+			order.Orderstatus = 0;
 			order.ItemsList.Add(item);
-			Assert.NotNull(odal.CreateOrder(order));
+			bool result = odal.CreateOrder(order);
+			Assert.False((bool)result);
 
 		}
 		[Fact]
@@ -33,20 +36,20 @@ namespace DAL.Test
 		{
 			Item item = new Item();
 			Order order = new Order();
-		
-			order.OrderTable = new Table();
-			order.OrderTable.Table_Id = 1;
+
+			order.OrderId = 199;
 			order.ItemsList = new List<Item>();
-			
-			item.ItemId = 1;
-			item.Amount = 25;
-			order.Orderstatus = OrderStatus.Not_Pay_out;
+			item.ItemId = 199;
+		//	order.quantity = 23666;
+			item.Amount = 7766666;
+			order.Orderstatus = 0;
 			order.ItemsList.Add(item);
-			Assert.NotNull(odal.UpdateOrder(order));
+			bool result = odal.UpdateOrder(order);
+			Assert.False((bool)result);
 
 		}
-	
-	
+
+
 	}
 
 

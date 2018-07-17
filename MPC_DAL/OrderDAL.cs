@@ -7,102 +7,95 @@ namespace MPC_DAL
 {
 	public class OrderDAL
 	{
-		//private string query;
-		//private MySqlDataReader reader;
+		private string query;
+		private MySqlDataReader reader;
 		private MySqlConnection connection;
+		public List<Order> GetAllOrder()
+		{
+			query = "select * from Orders inner join OrderDetails ;";
+			// Order order = null;
+			List<Order> lod = new List<Order>();
+			using (connection = DbConfiguration.OpenDefaultConnection())
+			{
+				MySqlCommand command = new MySqlCommand(query, connection);
+				using (reader = command.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						Order order = new Order();
+						order = GetOrder(reader);
+						lod.Add(order);
+					}
+					reader.Close();
+				}
+			}
+			return lod;
+		}
+		public Order GetOrderById(int OrderId)
+		{
+
+			query = @"select * from Items where order_id=" + OrderId + ";";
+
+			Order order = null;
+			using (connection = DbConfiguration.OpenDefaultConnection())
+			{
+				MySqlCommand command = new MySqlCommand(query, connection);
+				using (reader = command.ExecuteReader())
+				{
+					if (reader.Read())
+					{
+						order = GetOrder(reader);
+					}
+					reader.Close();
+				}
+			}
+			return order;
+		}
+		private Order GetOrder(MySqlDataReader reader)
+		{
+			Order o = new Order();
+			o.OrderTable = new Table();
+			o.OrderItem = new Item();
+			o.OrderAccount = new Account();
+			o.OrderItem.Amount = reader.GetInt32("quantity");
+			o.OrderItem.ItemPrice = reader.GetDecimal("item_price");
+			o.OrderItem.ItemId = reader.GetInt32("item_id");
+			o.OrderId = reader.GetInt32("order_id");
+			o.Orderstatus = reader.GetInt32("order_status");
+			o.OrderTable.Table_Id = reader.GetInt32("table_id");
+			o.OrderAccount.Account_Id = reader.GetInt32("account_id");
+			o.OrderDate = reader.GetDateTime("order_date");
+			return o;
+		}
+
 		public OrderDAL()
 		{
 			connection = DbConfiguration.OpenDefaultConnection();
 		}
-		// private Order GetOrder(MySqlDataReader reader)
-		// {
-		// 	Order o = new Order();// m xoa cai order item a// sai chả xoá
-		// 	Item i = new Item();
-		// 	o.OrderTable.Table_Id = reader.GetInt32("table_id");
-		// 	o.ItemsList[0].ItemId = reader.GetInt32("item_id");
-		// 	i.Amount
-		// 	i.ItemPrice = reader.GetInt32("unit_price");
-		// 	o.OrderDate = reader.GetDateTime("order_date");
-		// 	o.OrderId = reader.GetInt32("order_id");
-		// 	return o;
-		// }
-
-		// public Order DeleteOrder(int tableid)
-		// {
-		// 	query = @"DELETE  FROM Orders WHERE table_id=" + tableid + ";";
-
-		// 	Order o = null;
-		// 	using (connection = DbConfiguration.OpenDefaultConnection())
-		// 	{
-		// 		MySqlCommand command = new MySqlCommand(query, connection);
-		// 		using (reader = command.ExecuteReader())
-		// 		{
-		// 			if (reader.Read())
-		// 			{
-		// 				o = GetOrder(reader);
-		// 			}
-		// 			reader.Close();
-		// 		}
-		// 	}
-		// 	return o;
-		// }
+	
 		public bool UpdateOrder(Order order)
 		{
 
-			if (order == null || order.ItemsList == null || order.ItemsList.Count == 0 || CreateOrder(order) == false|| order.OrderTable.Table_Id == 0|| order.OrderId == 0 )
-			{
-				return false;
-			}
+
 			bool result = true;
-			//mở connection đến dbbase
+			// //mở connection đến dbbase
 			if (connection.State == System.Data.ConnectionState.Closed)
 			{
 				connection.Open();
 			}
 			MySqlCommand cmd = new MySqlCommand();
-			cmd.CommandText = "lock tables Items_Category write, Account write, Tables write, Orders write, Items write, OrderDetails write;";
+			cmd.CommandText = "lock tables  Account write, Tables write, Orders write, Items write, OrderDetails write;";
 			connection.CreateCommand();
 			cmd.Connection = connection;
 			cmd.ExecuteNonQuery();
 			MySqlTransaction trans = connection.BeginTransaction();
 			cmd.Transaction = trans;
-			MySqlDataReader reader = null;
+			//MySqlDataReader reader = null;
 			try
 			{
-				if (order.OrderId == 0)
-				{
-					throw new Exception("Can't find this order!");
-				}
-				cmd.CommandText = @"Update Orders set account_id = "+order.OrderAccount.Account_Id+", table_id =1 where order_id = "+order.OrderId+" ;";
-				cmd.Parameters.Clear();
-			
-				cmd.ExecuteNonQuery();
-				foreach (var item in order.ItemsList)
-				{
-						if (item.ItemId == 0 || item.Amount <= 0)
-					{
-						throw new Exception("Not Exists Item");
-					}
-					//get unit_price
-					cmd.CommandText = "select unit_price from Items where item_id=@itemId";
-					cmd.Parameters.Clear();
-					cmd.Parameters.AddWithValue("@itemId", item.ItemId);
-					reader = cmd.ExecuteReader();
-					if (!reader.Read())
-					{
-						throw new Exception("Not Exists Item");
-					}
-					item.ItemPrice = reader.GetDecimal("unit_price");
-					reader.Close();
 
-					cmd.CommandText = @"Update OrderDetails set item_id = "+item.ItemId+", quantity= "+item.Amount+" where order_id = 1;";
-					cmd.ExecuteNonQuery();
-					//update amount in Items
-					cmd.CommandText = "update Items set amount=amount-@quantity where item_id=" + item.ItemId + ";";
-					cmd.Parameters.Clear();
-					cmd.Parameters.AddWithValue("@quantity", item.Amount);
-					cmd.ExecuteNonQuery();
-				}
+				cmd.CommandText = @"Update OrdersDetail ";
+
 				trans.Commit();
 				result = true;
 			}
@@ -116,6 +109,7 @@ namespace MPC_DAL
 				}
 				catch
 				{
+
 				}
 			}
 			finally
@@ -139,27 +133,29 @@ namespace MPC_DAL
 			{
 				connection.Open();
 			}
-			// MySqlConnection connection = DbConfiguration.OpenConnection();
+
 			MySqlCommand cmd = connection.CreateCommand();
 			cmd.Connection = connection;
-			cmd.CommandText = "lock tables Items_Category write, Account write, Tables write, Orders write, Items write, OrderDetails write;";
+			cmd.CommandText = "lock tables Account write, Tables write, Orders write, Items write, OrderDetails write;";
 			cmd.ExecuteNonQuery();
 			MySqlTransaction trans = connection.BeginTransaction();
 			cmd.Transaction = trans;
 			MySqlDataReader reader = null;
 			try
 			{
-
-				if (order.OrderTable == null || order.OrderTable.Table_Id == 0)
-				{
-					throw new Exception("Can't find table!");
-				}
 				//Insert Order
+
+
 				cmd.CommandText = @"insert into Orders(table_id, account_id, order_status) values (" + order.OrderTable.Table_Id + ", " + order.OrderAccount.Account_Id + ", " + order.Orderstatus + ");";
 				cmd.Parameters.Clear();
 				order.Orderstatus = OrderStatus.Not_Pay_out;
 				cmd.ExecuteNonQuery();
+
+				cmd.CommandText = @"Update Tables set table_status=1  where table_id =" + order.OrderTable.Table_Id + ";";
+				cmd.ExecuteNonQuery();
+
 				cmd.CommandText = "select LAST_INSERT_ID() as order_id";
+				// cmd.ExecuteNonQuery();
 				reader = cmd.ExecuteReader();
 				if (reader.Read())
 				{
@@ -167,36 +163,34 @@ namespace MPC_DAL
 				}
 				reader.Close();
 				//insert Order Details table
+
 				foreach (var item in order.ItemsList)
 				{
-					if (item.ItemId == 0 || item.Amount <= 0)
+					if (item.ItemId == 0)
 					{
 						throw new Exception("Not Exists Item");
 					}
 					//get unit_price
-					cmd.CommandText = "select unit_price from Items where item_id=@itemId";
-					cmd.Parameters.Clear();
-					cmd.Parameters.AddWithValue("@itemId", item.ItemId);
+					cmd.CommandText = "select item_name , item_price from Items where item_id=" + item.ItemId + ";";
 					reader = cmd.ExecuteReader();
 					if (!reader.Read())
 					{
 						throw new Exception("Not Exists Item");
 					}
-					item.ItemPrice = reader.GetDecimal("unit_price");
+					item.ItemPrice = reader.GetDecimal("item_price");
+					item.ItemName = reader.GetString("item_name");
 					reader.Close();
 
-					cmd.CommandText = @"insert into OrderDetails( order_id,item_id, unit_price, quantity) values 
+					cmd.CommandText = @"insert into OrderDetails( order_id,item_id, item_price, quantity) values 
                             ( " + order.OrderId + "," + item.ItemId + ", " + item.ItemPrice + ", " + item.Amount + ");";
 					cmd.ExecuteNonQuery();
 					//update amount in Items
-					cmd.CommandText = "update Items set amount=amount-@quantity where item_id=" + item.ItemId + ";";
-					cmd.Parameters.Clear();
-					cmd.Parameters.AddWithValue("@quantity", item.Amount);
+					cmd.CommandText = "update Items set  amount= amount - " + item.Amount + "  where item_id=" + item.ItemId + ";";
 					cmd.ExecuteNonQuery();
 				}
-
 				trans.Commit();
 				result = true;
+
 			}
 			catch (Exception ex)
 			{

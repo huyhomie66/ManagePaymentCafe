@@ -9,11 +9,19 @@ namespace DAL.Test
 	{
 		private TableDAL tdal = new TableDAL();
 		[Fact]
-		public void CheckIdTableTest()
+		public void GetIdTableTest()
 		{
 		int Tableid = 37;
-		Table t =  tdal.CheckTableById( Tableid);			
+		Table t =  tdal.GetTableById( Tableid);			
 		Assert.Null(t);		
+		}
+		[Fact]
+		public void CheckTableTest()
+		{
+			int Tableid = 2;
+			Table t = tdal.CheckTableById(Tableid);
+			Assert.NotNull(t);
+
 		}
 	}
 }

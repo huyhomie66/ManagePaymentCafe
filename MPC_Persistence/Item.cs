@@ -7,7 +7,7 @@ namespace MPC_Persistence
 		public const int Get_Food = 0;
 		public const int Get_Drink = 1;
 	}
-	public class Item : Item_Category
+	public class Item // Item_Category
 	{
 		public int ItemId { get; set; }
 		public string ItemName { get; set; }
