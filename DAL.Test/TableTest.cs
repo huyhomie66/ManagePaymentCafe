@@ -19,8 +19,8 @@ namespace DAL.Test
 		public void CheckTableTest()
 		{
 			int Tableid = 2;
-			Table t = tdal.CheckTableById(Tableid);
-			Assert.NotNull(t);
+			bool t = tdal.CheckTableById(Tableid);
+			Assert.True(t);
 
 		}
 	}

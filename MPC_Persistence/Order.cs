@@ -5,8 +5,8 @@ namespace MPC_Persistence
 {
 	public static class OrderStatus
 	{
-			public const int Pay_out =0;
-		public const int Not_Pay_out= 1;
+			public const int Pay_out =1;
+		public const int Not_Pay_out= 0;
 	}
 	public class Order
 	{ 

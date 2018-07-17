@@ -25,14 +25,21 @@ namespace PL_Console
 				Console.WriteLine("Input table Id: ");
 				tableid = Convert.ToInt32(Console.ReadLine());
 				var result = tbl.CheckTableById(tableid);
-				if (result != null)
+				var result2 = tbl.Checktablehasorder(tableid);
+				if (result == true)
 				{
 					t = (tbl.GetTableById(tableid));
 					break;
 				}
-				else if (result == null)
+				if (result2 == true)
+				{
+					t = (tbl.GetTableById(tableid));
+					break;
+				}
+				else 
 				{
 					Console.WriteLine("Cant find this table or table is not empty!!!");
+					continue;
 				}
 			}
 			o.OrderTable.Table_Id = tableid;

@@ -29,12 +29,10 @@ namespace MPC_DAL
 			}
 			return t;
 		}
-		public Table CheckTableById(int tableid)
+		public bool InputMoreOrder(int tableid)
 		{
-			query = @"select * from Tables where table_id = " + tableid + " and table_status =0;";
-			
-			
-			Table	t = null;
+			query = @"select * from Tables as t inner join Orders as o on t.table_id = o.table_id where t.table_id =" + tableid + "  and t.table_status=1 and o.order_status = 0;";
+			bool t = false;
 			using (connection = DbConfiguration.OpenDefaultConnection())
 			{
 				MySqlCommand cmd = new MySqlCommand(query, connection);
@@ -42,8 +40,27 @@ namespace MPC_DAL
 				{
 					if (reader.Read())
 					{
-						t = GetTable(reader);
-						// Console.WriteLine("Successful table selection");
+						t = true;
+					}
+					reader.Close();
+				}
+			}
+			return t;
+		}
+		public bool CheckTableById(int tableid)
+		{
+			query = @"select * from Tables where table_id = " + tableid + " and table_status =0;";
+
+
+			bool t = false;
+			using (connection = DbConfiguration.OpenDefaultConnection())
+			{
+				MySqlCommand cmd = new MySqlCommand(query, connection);
+				using (reader = cmd.ExecuteReader())
+				{
+					if (reader.Read())
+					{
+						t = true;
 					}
 					reader.Close();
 				}
@@ -57,6 +74,6 @@ namespace MPC_DAL
 			c.TableName = reader.GetString("table_name");
 			c.Status = reader.GetInt32("table_status");
 			return c;
-		}		
+		}
 	}
 }
