@@ -37,7 +37,7 @@ create table Orders(
 );
 
 create table OrderDetails(
-	order_id int auto_increment not null,
+	order_id int not null,
     item_id int  not null,
     item_price decimal(20,2) not null ,
     quantity int not null,
@@ -131,15 +131,62 @@ insert into Tables( table_id,table_name,table_status) values
 (36,'bàn 36',0);
 select * from Tables;
 select *from OrderDetails; 
-
+/*insert into OrderDetails( item_id ,item_price  ,quantity ) values( 1, 8,9),(1,9,8);*/
 select *from Orders;
+/*SELECT DISTINCT  
+   item_id,
+   item_price,
+   SUM(quantity) AS quantity
+FROM OrderDetails
+GROUP BY item_id , item_price, quantity;
+select last_insert_id() as order_id;
+select * from Orders as o inner join OrderDetails as od on o.order_id = od.order_id  where o.order_id= 1;
+/*delimiter $$
+create procedure sp_EditOrder(IN orderid int , in item_id ,item_price decimal(20,2) not null ,quantity int not null,)
+begin
+if()
+	insert into Customers(customer_name, customer_address) values (customerName, customerAddress); 
+    select max(customer_id) into customerId from Customers;
+ele
+end $$
+delimiter ;
+declare @dem int 
+select @dem=count(*) from Customer where value=@value
+if(@dem>0) begin update Customer set years=years+@years where value=@value end
+else begin insert ... end $$
+delimiter ;
+ /*declare @dem int 
+ 
+select @dem=count(*) from Customer where value=@value 
+if(@dem>0) begin update Customer set years=years+@years where value=@value end
+else begin insert ... end
+INSERT INTO OrdersDetails (order_id, item_id, unit_price,quantity) VALUES(1, 4,20.000,16)  ON DUPLICATE KEY UPDATE item_id =3 , quantity=5;
+insert into OrdersDetails(item_id,item_price,quantity) values(3,20.000,10);
+INSERT INTO Orders ( item_id, item_price, opted_in) 
+  SELECT id, name, username, opted_in 
+  FROM user LEFT JOIN user_permission AS userPerm ON user.id = userPerm.user_id
+
 SELECT  order_date,order_status ,account_id ,table_id , item_id, item_price ,quantity 
 FROM Orders, OrderDetails
 WHERE Orders.order_id = OrderDetails.order_id
 GROUP BY Orders.order_id;
 
-select * from Orders inner join OrderDetails ;
-  
+select order_date, order_status, account_id, table_id, item_id , item_price , quantity from Orders  o inner join OrderDetails od  where o.order_id = od.order_id;
+
+select * from Tables as t inner join Orders as o
+on t.table_id = o.table_id
+ where t.table_id =1  and t.table_status=1 and o.order_status = 0;
+ 
+UPDATE Tables 
+INNER JOIN Orders ON Tables.table_id = Orders.table_id
+SET Tables.table_status = 0, Orders.order_status= 1
+WHERE Orders.order_id = 1 ;
+ 
+/*UPDATE OrderDetails 
+INNER JOIN Orders
+ON Orders.order_id = OrderDetails.order_id
+SET OrderDetails.item_price=1, OrderDetails
+WHERE bfbf ;
 
 /*insert into Orders(table_id, order_status,account_id  ) values
 	(1,0,1),(1,0,2),(1,0,3),

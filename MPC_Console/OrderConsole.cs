@@ -29,14 +29,15 @@ namespace PL_Console
 				if (result == true)
 				{
 					t = (tbl.GetTableById(tableid));
+
 					break;
 				}
-				if (result2 == true)
+				else if (result2 == true)
 				{
 					t = (tbl.GetTableById(tableid));
 					break;
 				}
-				else 
+				else
 				{
 					Console.WriteLine("Cant find this table or table is not empty!!!");
 					continue;
@@ -47,7 +48,11 @@ namespace PL_Console
 			while (true)
 			{
 				Console.WriteLine(" Input Item Id: ");
-				int itemid = Convert.ToInt32(Console.ReadLine());
+				int itemid;
+				while (!int.TryParse(Console.ReadLine(), out itemid))
+				{
+					Console.WriteLine("Invalid entry. Please enter a number.");
+				}
 				Console.WriteLine("Input quantity item: ");
 				int quantity = Convert.ToInt32(Console.ReadLine());
 				obl.AddItemToOrder(itemid, quantity, o);
@@ -109,26 +114,40 @@ namespace PL_Console
 
 		public static bool Update(Account a, Order o)
 		{
-			OrderDAL obl = new OrderDAL();
+			OrderBL obl = new OrderBL();
 			Console.WriteLine("Input Order Id to update: ");
 			int orderid = Convert.ToInt32(Console.ReadLine());
-			o = obl.GetOrderById(orderid);
+			while (true)
+			{
+				Console.WriteLine("Input Id Order for pay: ");
+				orderid = Convert.ToInt32(Console.ReadLine());
+				if (obl.CheckOrderById(orderid) == true)
+				{
+					break;
+				}
+				else
+				{
+					Console.WriteLine("Not Found this order to pay!!!");
+					continue;
+				}
+			}
+
 
 
 			return true;
 		}
 		public static bool ShowListOrder(Account a)
-		{		
+		{
 			OrderBL orderbl = new OrderBL();
-			List<Order> listorder = orderbl.Getall();			
+			List<Order> listorder = orderbl.GetAllListOrder();
 			Console.WriteLine("||====================================================================||");
 			Console.WriteLine("||==========================Order List Infor==========================||");
 			Console.WriteLine("||====================================================================||");
 			Console.WriteLine("||Order ID||Account ID||Item ID||Item Price||Quantity||Date Order     ||");
 			Console.WriteLine("||====================================================================||");
 			foreach (var order in listorder)
-			{	
-				Console.WriteLine("||{0,-8}||{1,-9}||{2,-7}||{3,-10}||{4,-8}||{5,-16}||", order.OrderId, order.OrderAccount.Account_Id, order.OrderItem.ItemId, order.OrderItem.ItemPrice, order.OrderItem.Amount, order.OrderDate.ToString("dd/MM/yyyy HH:mm"));				
+			{
+				Console.WriteLine("||{0,-8}||{1,-9}||{2,-7}||{3,-10}||{4,-8}||{5,-16}||", order.OrderId, order.OrderAccount.Account_Id, order.OrderItem.ItemId, order.OrderItem.ItemPrice, order.OrderItem.Amount, order.OrderDate.ToString("dd/MM/yyyy HH:mm"));
 			}
 			Console.WriteLine("||====================================================================||");
 			Console.WriteLine("Press any key to back the menu...");

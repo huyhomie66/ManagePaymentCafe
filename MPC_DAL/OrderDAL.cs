@@ -10,7 +10,7 @@ namespace MPC_DAL
 		private string query;
 		private MySqlDataReader reader;
 		private MySqlConnection connection;
-		public List<Order> GetAllOrder()
+		public List<Order> GetAllListOrder()
 		{
 			query = "select * from Orders inner join OrderDetails ;";
 			// Order order = null;
@@ -31,12 +31,35 @@ namespace MPC_DAL
 			}
 			return lod;
 		}
+
+		public Order GetAllOrder()
+		{
+			query = "select * from Orders inner join OrderDetails ;";
+			Order order = null;
+			//List<Order> lod = new List<Order>();
+			using (connection = DbConfiguration.OpenDefaultConnection())
+			{
+				MySqlCommand command = new MySqlCommand(query, connection);
+				using (reader = command.ExecuteReader())
+				{
+					while (reader.Read())
+					{
+						
+						order = GetOrder(reader);
+					
+					}
+					reader.Close();
+				}
+			}
+			return order;
+		}
+
 		public Order GetOrderById(int OrderId)
 		{
 
-			query = @"select * from Items where order_id=" + OrderId + ";";
+			query = @"select *from OrderDetails as od  inner join Orders as o where o.order_id=" + OrderId + ";";
 
-			Order order = null;
+			Order o = null;
 			using (connection = DbConfiguration.OpenDefaultConnection())
 			{
 				MySqlCommand command = new MySqlCommand(query, connection);
@@ -44,11 +67,45 @@ namespace MPC_DAL
 				{
 					if (reader.Read())
 					{
-						order = GetOrder(reader);
+						o = GetOrderForPay(reader);
 					}
 					reader.Close();
 				}
 			}
+			return o;
+		}
+		public List<Order> GetListOrderById(int OrderId)
+		{
+
+			query = @"select *from Orders as o inner join OrderDetails as od on o.order_id = od.order_id  where o.table_id=" + OrderId + ";";
+
+			List<Order> lod = new List<Order>();
+			using (connection = DbConfiguration.OpenDefaultConnection())
+			{
+				MySqlCommand command = new MySqlCommand(query, connection);
+				using (reader = command.ExecuteReader())
+				{
+					if (reader.Read())
+					{
+						Order order = new Order();
+						order = GetOrder(reader);
+						lod.Add(order);
+					}
+					reader.Close();
+				}
+			}
+			return lod;
+		}
+		private Order GetOrderForPay(MySqlDataReader reader)
+		{
+			Order order = new Order();
+			order.OrderTable = new Table();
+			order.OrderItem = new Item();
+			order.OrderId = reader.GetInt32("order_id");
+			order.OrderItem.ItemId = reader.GetInt32("item_id");
+			order.OrderItem.ItemPrice = reader.GetInt32("item_price");
+			order.OrderItem.Amount = reader.GetInt32("quantity");
+			order.total = order.OrderItem.Amount * order.OrderItem.ItemPrice;
 			return order;
 		}
 		private Order GetOrder(MySqlDataReader reader)
@@ -65,14 +122,80 @@ namespace MPC_DAL
 			o.OrderTable.Table_Id = reader.GetInt32("table_id");
 			o.OrderAccount.Account_Id = reader.GetInt32("account_id");
 			o.OrderDate = reader.GetDateTime("order_date");
+			o.total = o.OrderItem.ItemPrice * o.OrderItem.Amount;		
 			return o;
+		}
+		public bool CheckOrderById(int order_id)
+		{
+			query = @"select * from Orders  where order_id = " + order_id + " and order_status =0;";
+
+
+			bool t = false;
+			using (connection = DbConfiguration.OpenDefaultConnection())
+			{
+				MySqlCommand cmd = new MySqlCommand(query, connection);
+				using (reader = cmd.ExecuteReader())
+				{
+					if (reader.Read())
+					{
+						t = true;
+					}
+					reader.Close();
+				}
+			}
+			return t;
 		}
 
 		public OrderDAL()
 		{
 			connection = DbConfiguration.OpenDefaultConnection();
 		}
-	
+		public bool PayOrder(Order order)
+		{
+
+			bool result = true;
+
+			if (connection.State == System.Data.ConnectionState.Closed)
+			{
+				connection.Open();
+			}
+
+			MySqlCommand cmd = connection.CreateCommand();
+			cmd.Connection = connection;
+			cmd.CommandText = "lock tables Account write, Tables write, Orders write, Items write, OrderDetails write;";
+			cmd.ExecuteNonQuery();
+			MySqlTransaction trans = connection.BeginTransaction();
+			cmd.Transaction = trans;
+			//	MySqlDataReader reader = null;
+			try
+			{
+				cmd.CommandText = @"UPDATE Tables INNER JOIN Orders ON Tables.table_id = Orders.table_id SET Tables.table_status = 0, Orders.order_status = 1 WHERE Tables.table_id =" + order.OrderTable.Table_Id + " and Orders.order_id = " + order.OrderId + ";";
+				cmd.ExecuteNonQuery();
+				trans.Commit();
+				result = true;
+
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				result = false;
+				try
+				{
+					trans.Rollback();
+				}
+				catch
+				{
+				}
+			}
+			finally
+			{
+				cmd.CommandText = "unlock tables;";
+				cmd.ExecuteNonQuery();
+				DBHelper.CloseConnection();
+			}
+			return result;
+		}
+
 		public bool UpdateOrder(Order order)
 		{
 
@@ -87,6 +210,7 @@ namespace MPC_DAL
 			cmd.CommandText = "lock tables  Account write, Tables write, Orders write, Items write, OrderDetails write;";
 			connection.CreateCommand();
 			cmd.Connection = connection;
+			cmd.CommandText = @"Update Orde;";
 			cmd.ExecuteNonQuery();
 			MySqlTransaction trans = connection.BeginTransaction();
 			cmd.Transaction = trans;
@@ -94,7 +218,29 @@ namespace MPC_DAL
 			try
 			{
 
-				cmd.CommandText = @"Update OrdersDetail ";
+				foreach (var item in order.ItemsList)
+				{
+					if (item.ItemId == 0)
+					{
+						throw new Exception("Not Exists Item");
+					}
+					//get unit_price
+					cmd.CommandText = "select item_name , item_price from Items where item_id=" + item.ItemId + ";";
+					reader = cmd.ExecuteReader();
+					if (!reader.Read())
+					{
+						throw new Exception("Not Exists Item");
+					}
+					item.ItemPrice = reader.GetDecimal("item_price");
+					item.ItemName = reader.GetString("item_name");
+					reader.Close();
+
+					cmd.CommandText = @"insert into OrderDetails( order_id,item_id, item_price, quantity) values                             ( " + order.OrderId + "," + item.ItemId + ", " + item.ItemPrice + ", " + item.Amount + ");";
+					cmd.ExecuteNonQuery();
+					//update amount in Items
+					cmd.CommandText = "update Items set  amount= amount - " + item.Amount + "  where item_id=" + item.ItemId + ";";
+					cmd.ExecuteNonQuery();
+				}
 
 				trans.Commit();
 				result = true;

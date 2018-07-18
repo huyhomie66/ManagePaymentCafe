@@ -10,9 +10,8 @@ namespace MPC_Persistence
 	}
 	public class Order
 	{ 
-		public int total { get; set; }
-		// public int item_price { get; set; }
-		// public int item_id{get;set;}
+		public decimal total{ get; set; }
+		//public decimal totalmoney {get;set;}	
 		public Item OrderItem{get;set;}
 		public int Orderstatus { get; set; }
 
@@ -24,7 +23,7 @@ namespace MPC_Persistence
 		public List<Table> TableList{get;set;}
 		public List<Account> Accountlist{get;set;}
 		public Account OrderAccount {get;set;}
-		public int Count { get; set; }
+	
 
 		public Item this[int index]
 		{

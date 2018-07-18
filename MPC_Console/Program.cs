@@ -50,7 +50,7 @@ namespace PL_Console
 						break;
 
 					case 2:
-						PayoutConsole.Payout(a);
+						PayoutConsole.Payout();
 						break;
 				}
 			} while (imChoose != mainMenu.Length);

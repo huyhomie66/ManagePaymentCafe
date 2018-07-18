@@ -42,6 +42,7 @@ namespace MPC_DAL
 					{
 						t = true;
 					}
+				
 					reader.Close();
 				}
 			}
