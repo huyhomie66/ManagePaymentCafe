@@ -16,7 +16,7 @@ namespace MPC_BL
 		{
 			return idal.GetItemById(itemId);
 		}
-		public Item CheckItemById(int itemid)
+		public bool CheckItemById(int itemid)
 		{
 			return idal.CheckItemId(itemid);
 		}

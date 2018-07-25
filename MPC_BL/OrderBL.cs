@@ -1,73 +1,72 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using MPC_Persistence;
 using MPC_DAL;
+using System.Linq;
 
 namespace MPC_BL
 {
 	public class OrderBL
 	{
 		private OrderDAL Odal = new OrderDAL();
+		public List<Item> listitem = new List<Item>();
 		public bool CreateOrder(Order order)
 		{
 			bool result = Odal.CreateOrder(order);
 			return result;
 		}
-		public List<Order> GetAllListOrder()
+		public List<Order> GetTableIdForPay( int Table_id)
 		{
-			return Odal.GetAllListOrder();
+			return Odal.GetTableIdForPay(Table_id);
 		}
-		public Order GetAllOrder()
-		{
-			return Odal.GetAllOrder();
-		}
+		// 
 		public bool UpdateOrder(Order Order)
 		{
 			bool result = Odal.UpdateOrder(Order);
 			return result;
 		}
-		public bool CheckOrderById(int orderid)
+	
+	
+		public List<Order> GetListOrderForShow()
 		{
-			return Odal.CheckOrderById(orderid);
+			return Odal.GetListOrderForShow();
 		}
-		public Order GetOrderById(int orderid)
+		public bool PayOrder(int Table_id)
 		{
-			return Odal.GetOrderById(orderid);
-		}
-		public List<Order> GetListOrderById(int orderid)
-		{
-			return Odal.GetListOrderById(orderid);
-		}
-		public bool PayOrder(Order order)
-		{
-			return Odal.PayOrder(order);
+			return Odal.PayOrder(Table_id);
 		}
 		private ItemDAL idal = new ItemDAL();
 		private TableDAL tbl = new TableDAL();
 		private AccountDAL adl = new AccountDAL();
-		public void AddItemToOrder(int itemid, int quantity, Order order)
-		{
-			foreach (Item i in order.ItemsList)
+		
+			public Order GetOrderByTableID(Table t)
 			{
-				if (itemid == i.ItemId)
-				{
-					i.Amount += quantity;
-					return;
-				}
+				return Odal.GetOrderByTable( t);
 			}
 
-			order.ItemsList.Add(idal.GetItemById(itemid));
-			order.ItemsList[order.ItemsList.Count - 1].Amount = quantity;
-
-		}
-
-		public decimal Total(List<Order> orl)
-		{	OrderBL obl = new OrderBL();
-			orl = Odal.GetAllListOrder();
+		
+		public void AddItemToUpdate(int ItemId, int quantity,Order o)
+        {
+		 Item it = o.ItemsList.Where(item => item.ItemId == ItemId).FirstOrDefault();
+            if (it == null)
+            {
+                o.ItemsList.Add(new Item() { ItemId = ItemId, Amount =  quantity });
+            }
+            else 
+            {
+                it.Amount = it.Amount+ quantity;
+            }
+        }
+		public decimal Total(List<Order> orl, int Table_id)
+		{
+			OrderBL obl = new OrderBL();
+			orl = Odal.GetTableIdForPay(Table_id);
 			decimal totalmoney = 0;
 			foreach (var o in orl)
 			{
-				totalmoney = totalmoney +  o.OrderItem.ItemPrice * o.OrderItem.Amount;
+				totalmoney = totalmoney + o.OrderItem.ItemPrice * o.OrderItem.Amount;
 			}
 			return totalmoney;
 		}

@@ -38,10 +38,6 @@ namespace MPC_DAL
 					{
 						a = GetAccount(reader);
 					}
-					// else
-					// {
-					// 	throw new Exception("This Amount is wrong");
-					// }
 				}
 			}
 			return a;

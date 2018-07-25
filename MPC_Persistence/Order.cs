@@ -20,8 +20,8 @@ namespace MPC_Persistence
 		public Table OrderTable { get; set; }
 		public List<Order> OrderList{get;set;}
 		public List<Item> ItemsList { get; set; }
-		public List<Table> TableList{get;set;}
-		public List<Account> Accountlist{get;set;}
+		// public List<Table> TableList{get;set;}
+		// public List<Account> Accountlist{get;set;}
 		public Account OrderAccount {get;set;}
 	
 

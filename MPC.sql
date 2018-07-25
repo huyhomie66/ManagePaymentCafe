@@ -39,7 +39,7 @@ create table Orders(
 create table OrderDetails(
 	order_id int not null,
     item_id int  not null,
-    item_price decimal(20,2) not null ,
+    item_price decimal(20,3) not null ,
     quantity int not null,
     constraint pk_OrderDetails primary key(order_id,item_id),
     constraint fk_OrderDetails_Orders foreign key(order_id) references Orders(order_id),
@@ -129,10 +129,12 @@ insert into Tables( table_id,table_name,table_status) values
 (34,'bàn 34',0),
 (35,'bàn 35',0),
 (36,'bàn 36',0);
-select * from Tables;
+select * from Tables; 
 select *from OrderDetails; 
 /*insert into OrderDetails( item_id ,item_price  ,quantity ) values( 1, 8,9),(1,9,8);*/
-select *from Orders;
+select *from Orders; 
+
+
 /*SELECT DISTINCT  
    item_id,
    item_price,

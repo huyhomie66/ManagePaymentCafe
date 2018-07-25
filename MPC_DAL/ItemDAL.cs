@@ -15,10 +15,10 @@ namespace MPC_DAL
 		private string query;
 		private MySqlDataReader reader;
 		private MySqlConnection connection;
-		public Item CheckItemId(int itemid)
+		public bool CheckItemId(int itemid)
 		{
 			query = @"select * from Items where  item_status =1  and item_id =" + itemid + " ;";
-			Item item = null;
+			bool item = false;
 			using (connection = DbConfiguration.OpenDefaultConnection())
 			{
 				MySqlCommand command = new MySqlCommand(query, connection);
@@ -26,7 +26,7 @@ namespace MPC_DAL
 				{
 					if (reader.Read())
 					{
-						item = GetItem(reader);
+						item = true;
 					}
 					reader.Close();
 				}

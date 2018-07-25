@@ -11,8 +11,8 @@ namespace DAL.Test
 		[Fact]
 		public void TestItem()
 		{
-			Item i = itdal.CheckItemId(1);
-			Assert.Null(i);
+			bool i = itdal.CheckItemId(1);
+			Assert.False(i);
 		}
 		[Fact]
 		public void TestItem1()

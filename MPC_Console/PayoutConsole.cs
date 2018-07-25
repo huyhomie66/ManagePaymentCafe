@@ -9,59 +9,67 @@ namespace PL_Console
 {
 	class PayoutConsole
 	{
-		public static bool Payout()
+		public static Table t = new Table();
+		public static Account a = new Account();
+		public static OrderBL obl = new OrderBL();
+		public static TableBL tbl = new TableBL();
+		public static List<Order> orl = new List<Order>();
+		public static AccountBL abl = new AccountBL();
+		public static bool Payout(Order o)
 		{
-			Order o = new Order();
-			OrderBL obl = new OrderBL();
-			int orderid;
+
+
 			while (true)
 			{
-				Console.WriteLine("Input Id Order for pay: ");
-				orderid = Convert.ToInt32(Console.ReadLine());
-				if (obl.CheckOrderById(orderid) == true)
+				Console.Write("Input Id Table for pay: ");
+				t.Table_Id = Validate.InputInt(Console.ReadLine());
+				var result = obl.GetTableIdForPay(t.Table_Id);
+				if (result != null)
 				{
+					orl = obl.GetTableIdForPay(t.Table_Id);
+
 					break;
 				}
 				else
 				{
-					Console.WriteLine("Not Found this order to pay!!!");
+					Console.WriteLine("Not Found this Table to pay!!!");
 					continue;
 				}
 			}
-			List<Order> listorder = obl.GetAllListOrder();
-			o = obl.GetAllOrder();			
-			Console.WriteLine("||===============================================||");
-			Console.WriteLine("||================= Bill List Infor =============||");
-			Console.WriteLine("||===============================================||");
-			Console.WriteLine("||Order ID||Item ID||Item Price||Quantity||Total ||");
-			Console.WriteLine("||===============================================||");
-			foreach (var order in listorder)
+			Console.WriteLine("||============================================||");
+			Console.WriteLine("||=============== Bill List Infor ============||");
+			Console.WriteLine("||============================================||");
+			Console.WriteLine("|| Item ID || Item Price || Quantity || Total ||");
+			Console.WriteLine("||============================================||");
+			foreach (var order in orl)
 			{
-				Console.WriteLine("||{0,-8}||{1,-7}||{2,-10}||{3,-8}||{4,-5}||", order.OrderId, order.OrderItem.ItemId, order.OrderItem.ItemPrice + "0", order.OrderItem.Amount, order.total + "0");
+				Console.WriteLine("||{0,-9}||{1,-12}||{2,-10}||{3,-7}||", order.OrderItem.ItemId, order.OrderItem.ItemPrice.ToString("#.##"), order.OrderItem.Amount, order.total.ToString("#.##"));
 			}
-			decimal totalmoney = obl.Total(listorder);
+			Console.WriteLine("||============================================||");
+			decimal totalmoney = obl.Total(orl, t.Table_Id);
 			decimal fax = totalmoney / 10;
 			decimal grandtotal = totalmoney + fax;
-			Console.WriteLine("||Total Money: " + totalmoney + "0" + "VND" + "   Fax: " + fax + "0" + "VND");
-			Console.WriteLine("||Grand total(VND): " + grandtotal + "0" + "VND");
-			Console.WriteLine("||Input Money for pay: ");
-			decimal Money = Convert.ToDecimal(Console.ReadLine());
+			Console.WriteLine("||Total Money: " + totalmoney.ToString("#.##") + "VND" + "   Fax: " + fax.ToString("#.##") + "VND");
+			Console.WriteLine("||Grand total(VND): " + grandtotal.ToString("#.##") + "VND");
+			Console.WriteLine("||============================================||");
+			Console.Write("||Input Money for pay: ");
+			decimal Money = Validate.InputInt(Console.ReadLine());
 			while (true)
 			{
 				if (Money == grandtotal)
 				{
-					Console.WriteLine("Pay Order: " + (obl.PayOrder(o) ? "successfully!" : "not successfully!"));
+					Console.WriteLine("||Pay Order: " + (obl.PayOrder(t.Table_Id) ? "successfully!" : "not successfully!"));
 					break;
 				}
 				else if (Money < grandtotal)
 				{
 					decimal moneyshortage = grandtotal - Money;
-					Console.WriteLine("moneyshortage : " + moneyshortage + "0"+ "VND");
-					Console.WriteLine("Input money shortage to complete order! : ");
+					Console.WriteLine("||Money shortage : " + moneyshortage + "VND");
+					Console.WriteLine("||Input money shortage to complete order! : ");
 					decimal a = Convert.ToDecimal(Console.ReadLine());
 					if (a == moneyshortage)
 					{
-						Console.WriteLine("Pay Order: " + (obl.PayOrder(o) ? "successfully!" : "not successfully!"));
+						Console.WriteLine("||Pay Order: " + (obl.PayOrder(t.Table_Id) ? "successfully!" : "not successfully!"));
 						break;
 					}
 					else
@@ -72,13 +80,13 @@ namespace PL_Console
 				else if (Money > grandtotal)
 				{
 					decimal excesscash = Money - grandtotal;
-					Console.WriteLine("Excess Cash: " + excesscash + "0"+ "VND");
-					Console.WriteLine("Pay Order: " + (obl.PayOrder(o) ? "successfully!" : "not successfully!"));
+					Console.WriteLine("||Excess Cash: " + excesscash + "VND");
+					Console.WriteLine("||Pay Order: " + (obl.PayOrder(t.Table_Id) ? "successfully!" : "not successfully!"));
 					break;
 
 				}
 			}
-			Console.WriteLine("||===============================================||");
+			Console.WriteLine("||===========================================||");
 			Console.WriteLine("Press any key to back the menu...");
 			Console.ReadKey();
 			return true;

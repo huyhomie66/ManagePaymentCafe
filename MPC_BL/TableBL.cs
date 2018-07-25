@@ -7,19 +7,26 @@ namespace MPC_BL
 {
 	public class TableBL
 	{
-		private TableDAL cdal = new TableDAL();
-		public bool CheckTableById(int tableId)
+		private  static TableDAL tdal = new TableDAL();
+		public bool CheckTableEmtpyById(int tableId)
 		{
-			return cdal.CheckTableById(tableId);
+			return tdal.CheckTableById(tableId);
 		}
 		public Table GetTableById(int tableId)
 		{
-			return cdal.GetTableById(tableId);
+			return tdal.GetTableById(tableId);
 		}
-		public bool Checktablehasorder(int tableId)
+		// public bool Checktablehasorder(int tableId)
+		// {
+		// 	return tdal.CheckTableForPay(tableId);
+		// }
+		// public bool UpdateTableStatus(int tableId)
+		// {
+		// 	return tdal.UpdateTableStatus(tableId);
+		// }
+		public List<Table> DisplayListTable()
 		{
-			return cdal.InputMoreOrder(tableId);
+			return tdal.display();
 		}
-
 	}
 }
