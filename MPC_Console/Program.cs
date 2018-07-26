@@ -23,7 +23,7 @@ namespace PL_Console
 			string[] login = { "Login", "Exit." };
 			do
 			{
-				mainChoose = OrderConsole.Menu("Welcom to management cafe restaurent system !", login);
+				mainChoose = OrderConsole.Menu("Welcome to Cafe Management System !", login);
 				switch (mainChoose)
 				{
 

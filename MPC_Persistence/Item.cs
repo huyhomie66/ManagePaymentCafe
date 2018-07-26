@@ -18,7 +18,7 @@ namespace MPC_Persistence
 			}
 			set
 			{
-				while (value > 100 || value < 0)
+				while (value > 24 || value < 0)
 				{
 					Console.WriteLine("Cant find this Item for order!, please re-enter: ");
 					value = Convert.ToInt32(Console.ReadLine());

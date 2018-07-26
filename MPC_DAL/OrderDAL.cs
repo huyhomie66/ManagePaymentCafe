@@ -15,8 +15,8 @@ namespace MPC_DAL
 		public static AccountDAL adal = new AccountDAL();
 		public List<Order> GetTableIdForPay(int table_id)
 		{
-			query = "select *from Orders as o inner join OrderDetails as od on o.order_id = od.order_id where o.order_status= 0 and o.table_id = " + table_id + ";";
-			// Order order = null;
+			query = "select *from Orders as o inner join OrderDetails as od  on o.order_id = od.order_id inner join Tables as t on t.table_id = o.table_id where o.order_status = 0  and t.table_status = 1 and o.table_id ="+table_id+";";
+
 			List<Order> lod = new List<Order>();
 			using (connection = DbConfiguration.OpenDefaultConnection())
 			{
@@ -35,7 +35,7 @@ namespace MPC_DAL
 			return lod;
 		}
 
-		
+
 		private Order GetOrderForPay(MySqlDataReader reader)
 		{
 			Order order = new Order();
@@ -44,14 +44,14 @@ namespace MPC_DAL
 			order.OrderItem = new Item();
 			order.OrderId = reader.GetInt32("order_id");
 			order.OrderItem.ItemId = reader.GetInt32("item_id");
-			order.OrderItem.ItemPrice = reader.GetInt32("item_price");
+			order.OrderItem.ItemPrice = reader.GetDecimal("item_price");
 			order.OrderItem.Amount = reader.GetInt32("quantity");
 			order.OrderAccount.Account_Id = reader.GetInt32("account_id");
 			order.OrderTable.Table_Id = reader.GetInt32("table_id");
 			order.total = order.OrderItem.Amount * order.OrderItem.ItemPrice;
 			return order;
 		}
-	
+
 
 		public List<Order> GetListOrderForShow()
 		{
@@ -119,9 +119,9 @@ namespace MPC_DAL
 			//	MySqlDataReader reader = null;
 			try
 			{
-				cmd.CommandText = @"update Tables as t inner join Orders as o  on t.table_id = o.table_id set t.table_status = 0 , o.order_status = 1 where t.table_id = "+table_id+";";
+				cmd.CommandText = @"update Tables as t inner join Orders as o  on t.table_id = o.table_id set t.table_status = 0 , o.order_status = 1 where t.table_id = " + table_id + " and o.order_status = 0;";
 				cmd.ExecuteNonQuery();
-				
+
 				trans.Commit();
 				result = true;
 
@@ -254,6 +254,8 @@ namespace MPC_DAL
 					order.OrderId = reader.GetInt32("order_id");
 				}
 				reader.Close();
+				cmd.CommandText = @"Update Orders set order_status = 0 where order_id = " + order.OrderId + ";";
+				cmd.ExecuteNonQuery();
 				//insert Order Details table
 
 				foreach (var item in order.ItemsList)
@@ -274,8 +276,9 @@ namespace MPC_DAL
 					reader.Close();
 
 					cmd.CommandText = @"insert into OrderDetails( order_id,item_id, item_price, quantity )values 
-                            ( " + order.OrderId + "," + item.ItemId + ", " + item.ItemPrice + ", " + item.Amount + ")ON DUPLICATE KEY UPDATE quantity = quantity+" + item.Amount + " ;";
+                            ( " + order.OrderId + "," + item.ItemId + ", " + item.ItemPrice + ", " + item.Amount + ");";
 					cmd.ExecuteNonQuery();
+					
 					//	cmd.CommandText = @"UPDATE OrderDetails SET quantity=quantity+" + item.Amount + " WHERE item_id=" + item.ItemId + " and where order_id=" + order.OrderId + ";";
 					//update amount in Items
 					cmd.CommandText = "update Items set  amount= amount - " + item.Amount + "  where item_id=" + item.ItemId + ";";
@@ -307,7 +310,7 @@ namespace MPC_DAL
 		}
 		public Order GetOrderByTable(Table t)
 		{
-			query = @"select *from  Orders as o inner join Tables as t on o.table_id = t.table_id  where o.table_id =" + t.Table_Id + " and table_status = 1;";
+			query = @"select *from  Orders as o inner join Tables as t on o.table_id = t.table_id  where o.order_status = 0 and o.table_id =" + t.Table_Id + " and table_status = 1;";
 			Order o = null;
 			using (connection = DbConfiguration.OpenDefaultConnection())
 			{

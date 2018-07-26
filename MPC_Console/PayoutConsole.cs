@@ -4,6 +4,7 @@ using MPC_Persistence;
 using MPC_BL;
 using MPC_DAL;
 using System.Text;
+using System.Globalization;
 
 namespace PL_Console
 {
@@ -27,7 +28,6 @@ namespace PL_Console
 				if (result != null)
 				{
 					orl = obl.GetTableIdForPay(t.Table_Id);
-
 					break;
 				}
 				else
@@ -37,23 +37,24 @@ namespace PL_Console
 				}
 			}
 			Console.WriteLine("||============================================||");
-			Console.WriteLine("||=============== Bill List Infor ============||");
+			Console.WriteLine("||================= Bill Infor ===============||");
 			Console.WriteLine("||============================================||");
 			Console.WriteLine("|| Item ID || Item Price || Quantity || Total ||");
 			Console.WriteLine("||============================================||");
 			foreach (var order in orl)
 			{
-				Console.WriteLine("||{0,-9}||{1,-12}||{2,-10}||{3,-7}||", order.OrderItem.ItemId, order.OrderItem.ItemPrice.ToString("#.##"), order.OrderItem.Amount, order.total.ToString("#.##"));
+				Console.WriteLine("||{0,-9}||{1,-12}||{2,-10}||{3,-7}||", order.OrderItem.ItemId, order.OrderItem.ItemPrice, order.OrderItem.Amount, order.total);
 			}
 			Console.WriteLine("||============================================||");
 			decimal totalmoney = obl.Total(orl, t.Table_Id);
 			decimal fax = totalmoney / 10;
 			decimal grandtotal = totalmoney + fax;
-			Console.WriteLine("||Total Money: " + totalmoney.ToString("#.##") + "VND" + "   Fax: " + fax.ToString("#.##") + "VND");
-			Console.WriteLine("||Grand total(VND): " + grandtotal.ToString("#.##") + "VND");
+			Console.Write("||Total Money = {0:C} ", totalmoney);
+			Console.WriteLine("Fax = {0:C} ",fax);
+			Console.WriteLine("||Grand total = {0:C} ", grandtotal);
 			Console.WriteLine("||============================================||");
 			Console.Write("||Input Money for pay: ");
-			decimal Money = Validate.InputInt(Console.ReadLine());
+			decimal Money = Convert.ToDecimal(Console.ReadLine());
 			while (true)
 			{
 				if (Money == grandtotal)
@@ -64,7 +65,7 @@ namespace PL_Console
 				else if (Money < grandtotal)
 				{
 					decimal moneyshortage = grandtotal - Money;
-					Console.WriteLine("||Money shortage : " + moneyshortage + "VND");
+					Console.WriteLine("||Money shortage : " + moneyshortage.ToString("F3", CultureInfo.InvariantCulture) + "VND");
 					Console.WriteLine("||Input money shortage to complete order! : ");
 					decimal a = Convert.ToDecimal(Console.ReadLine());
 					if (a == moneyshortage)
@@ -80,7 +81,7 @@ namespace PL_Console
 				else if (Money > grandtotal)
 				{
 					decimal excesscash = Money - grandtotal;
-					Console.WriteLine("||Excess Cash: " + excesscash + "VND");
+					Console.WriteLine("||Excess Cash: " + excesscash.ToString("F3", CultureInfo.InvariantCulture) + "VND");
 					Console.WriteLine("||Pay Order: " + (obl.PayOrder(t.Table_Id) ? "successfully!" : "not successfully!"));
 					break;
 

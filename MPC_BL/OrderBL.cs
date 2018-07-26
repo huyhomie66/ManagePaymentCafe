@@ -59,6 +59,19 @@ namespace MPC_BL
                 it.Amount = it.Amount+ quantity;
             }
         }
+		public void AddItemToOrder(int itemid,int quantity, Order order)
+        {
+            foreach(Item i in order.ItemsList)
+            {
+                if (itemid  == i.ItemId)
+                {
+                    i.Amount += quantity;
+                    return;
+                }
+            }
+            order.ItemsList.Add(idal.GetItemById(itemid));
+            order.ItemsList[order.ItemsList.Count-1].Amount = quantity;
+        }
 		public decimal Total(List<Order> orl, int Table_id)
 		{
 			OrderBL obl = new OrderBL();

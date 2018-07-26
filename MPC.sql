@@ -14,10 +14,10 @@ create table Account(
 
 
 create table Items(
-	item_id int  primary key, 
+	item_id int auto_increment  primary key, 
     item_name nvarchar(200) ,
-    item_price decimal(20,2) default 0   , 
-    amount int not null default 0,
+    item_price decimal(20,2) , 
+    amount int not null default 100,
     item_status tinyint not null default 1 /*0:hết sp, 1:chưa hết sp */
    
 );
@@ -39,7 +39,7 @@ create table Orders(
 create table OrderDetails(
 	order_id int not null,
     item_id int  not null,
-    item_price decimal(20,3) not null ,
+    item_price decimal(20,2) not null ,
     quantity int not null,
     constraint pk_OrderDetails primary key(order_id,item_id),
     constraint fk_OrderDetails_Orders foreign key(order_id) references Orders(order_id),
@@ -64,75 +64,76 @@ select * from Account;
 
 
 
-insert into Items(item_id,item_price, amount,item_name) values
-	(1,20.000, 100,'khoai tây chiên'),
-    (2,15.000, 100,'hướng dương'),
-    (3,20.000, 100,'bánh ngọt'),
-    (4,45.000, 100,'mỳ ý'),
-    (5,35.000, 100,'hamburger'),
-    (6,8.000, 100,'xúc xích'),
-    (7,25.000, 100,'sữa chua đanh đá'),
-    (8,20.000, 100,'hoa quả dầm'),
-    (9,35.000, 100,'cafe sữa đánóng'),
-    (10,35.000, 100,'mojito bạc hà'),
-    (11,35.000, 100,'mojito việt quất'),
-    (12,35.000, 100,'mojito dâu '),
-    (13,35.000, 100,'mojito chanh'),
-	(14,35.000, 100,'mojito xoài'),
-	(15,35.000, 100,'mojito kiwi'),
-	(16,7.000, 100,'trà nhài'),
-    (17,23.000, 100,'trà đào'),
-    (18,10.000, 100,'trà ô long'),
-	(19,55.000, 100,'capuchino'),
-	(20,55.000, 100,'caramel'),
-	(21,45.000, 100,'mocha'), 
-	(22,10.000, 100,'coca'),
-    (23,10.000, 100,'pepsi'),
-    (24,10.000, 100,'sting');
+insert into Items(item_price,item_name) values
+	(2.00,'potato chips'),
+    (1.50,'sunflower seed'),
+    (2.00,'cake'),
+    (4.50,'spaghetti'),
+    (3.50, 'hamburger'),
+    (5.00,'chicken rice'),
+    (5.00,'rice beef ribs'),
+    (0.80, 'sausage'),/*Lạp xưởng*/
+    (0.50,'yogurt '), /*sữa chua */
+    (2.00,'fruit beams'),
+    (2.50, 'hot cafe icecream'),
+	(2.50, 'cold cafe icecream'),
+    (3.50, 'Mint mojito'),
+    (3.50, 'blueberry mojito '),
+    (3.50, 'strawberry mojito '),/*việt quất*/
+    (3.50, 'lemon mojito'),
+	(3.50, 'mango mojito'),
+	(3.50, 'kiwi mojito'),
+	(7.00, 'Jasmine tea'),
+    (2.30, 'peach tea'),
+    (0.50, 'Olong tea'),
+	(4.50, 'capuchino'),
+	(4.50, 'caramel'),
+	(4.50, 'mocha'), 
+    (5.00, 'Irish Coffee (Whiskey)'),
+    (4.60, 'Brandy Coffee (Brandy)'),
+    (5.00, 'Mendoza (Tia Maria and Tequila)'),
+    (4.00, 'Keoke Coffee (Brandy) '),
+    (6.00, 'Calypso Coffee ( Rum) '),
+    (7.80, 'Jamaican Coffee (Tia Maria & Rum) '),
+    (9.00,'Shin Shin Coffee (Rum)'),
+    (5.00, 'Baileys Irish Cream Coffee '),
+    (7.00, 'Corned Beef'),
+	(1.00, 'coca'),
+    (1.00, 'pepsi'),
+    (1.00, 'sting'),
+    (1.00,'7up');
 select * from Items;
 
 insert into Tables( table_id,table_name,table_status) values
 
-(1,'bàn 1',0),
-(2,'bàn 2',0),
-(3,'bàn 3',0),
-(4,'bàn 4',0),
-(5,'bàn 5',0),
-(6,'bàn 6',0),
-(7,'bàn 7',0),
-(8,'bàn 8',0),
-(9,'bàn 9',0),
-(10,'bàn 10',0),
-(11,'bàn 11',0),
-(12,'bàn 12',0),
-(13,'bàn 13',0),
-(14,'bàn 14',0),
-(15,'bàn 15',0),
-(16,'bàn 16',0),
-(17,'bàn 17',0),
-(18,'bàn 18',0),
-(19,'bàn 19',0),
-(20,'bàn 20',0),
-(21,'bàn 21',0),
-(22,'bàn 22',0),
-(23,'bàn 23',0),
-(24,'bàn 24',0),
-(25,'bàn 25',0),
-(26,'bàn 26',0),
-(27,'bàn 27',0),
-(28,'bàn 28',0),
-(29,'bàn 29',0),
-(30,'bàn 30',0),
-(31,'bàn 31',0),
-(32,'bàn 32',0),
-(33,'bàn 33',0),
-(34,'bàn 34',0),
-(35,'bàn 35',0),
-(36,'bàn 36',0);
+(1,'Table 1',0),
+(2,'Table 2',0),
+(3,'Table 3',0),
+(4,'Table 4',0),
+(5,'Table 5',0),
+(6,'Table 6',0),
+(7,'Table 7',0),
+(8,'Table 8',0),
+(9,'Table 9',0),
+(10,'Table 10',0),
+(11,'Table 11',0),
+(12,'Table 12',0);
 select * from Tables; 
 select *from OrderDetails; 
 /*insert into OrderDetails( item_id ,item_price  ,quantity ) values( 1, 8,9),(1,9,8);*/
 select *from Orders; 
+
+
+   delimiter $$
+create trigger tg_CheckAmount
+	before update on Items
+	for each row
+	begin
+		if new.amount < 0 then
+            signal sqlstate '45001' set message_text = 'This item out of stock!!!';
+        end if;
+    end $$
+delimiter ;
 
 
 /*SELECT DISTINCT  
