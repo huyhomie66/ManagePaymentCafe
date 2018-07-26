@@ -20,7 +20,7 @@ namespace PL_Console
 			{
 			
 				Console.Write("Username: ");
-				a.Username = Console.ReadLine();
+				a.Username =  Console.ReadLine();
 				Console.Write("Input password: ");
 				a.Password = Validate.hidenpassword();
 				var result =account.login(a.Username, a.Password);

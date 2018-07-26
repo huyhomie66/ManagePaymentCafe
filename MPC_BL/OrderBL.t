@@ -14,3 +14,15 @@ public Order GetAllOrder()
 		{
 			return Odal.GetListOrderById(orderid);
 		}
+			// public void AddItemToUpdate(int ItemId, int quantity, Order o)
+		// {
+		// 	Item it = o.ItemsList.Where(item => item.ItemId == ItemId).FirstOrDefault();
+		// 	if (it == null)
+		// 	{
+		// 		o.ItemsList.Add(new Item() { ItemId = ItemId, Amount = quantity });
+		// 	}
+		// 	else
+		// 	{
+		// 		it.Amount = it.Amount + quantity;
+		// 	}
+		// }

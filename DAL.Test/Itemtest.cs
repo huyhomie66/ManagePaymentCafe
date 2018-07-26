@@ -8,12 +8,7 @@ namespace DAL.Test
 	public class ItemDalUniTest
 	{
 		private ItemDAL itdal = new ItemDAL();
-		[Fact]
-		public void TestItem()
-		{
-			bool i = itdal.CheckItemId(1);
-			Assert.False(i);
-		}
+		
 		[Fact]
 		public void TestItem1()
 		{

@@ -10,7 +10,7 @@ namespace MPC_DAL
 		private string query;
 		private MySqlDataReader reader;
 		private MySqlConnection connection;
-		public List<Table> display()
+		public List<Table> DisplayAllTable()
 		{
 			query = @"select * from Tables;";
 			List<Table> tablelist = new List<Table>();
@@ -68,7 +68,6 @@ namespace MPC_DAL
 			}
 			return t;
 		}
-
 		public bool CheckTableById(int tableid)
 		{
 			query = @"select * from Tables where table_id = " + tableid + " and table_status =0;";
@@ -87,7 +86,6 @@ namespace MPC_DAL
 			}
 			return t;
 		}
-
 		private Table GetTable(MySqlDataReader reader)
 		{
 			Table c = new Table();

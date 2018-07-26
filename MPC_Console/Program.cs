@@ -39,7 +39,7 @@ namespace PL_Console
 		{
 			Order o = new Order();
 			short imChoose;
-			string[] mainMenu = { "Order Management", "Payout ", "Exit" };
+			string[] mainMenu = { "Order Management", "Exit" };
 			do
 			{
 				imChoose = OrderConsole.Menu(" Cafe Management System ", mainMenu);
@@ -49,9 +49,9 @@ namespace PL_Console
 						OrderConsole.Order(a,o); 
 						break;
 
-					case 2:
-						PayoutConsole.Payout(o);
-						break;
+					// case 2:
+					// 	PayoutConsole.Payout(o);
+					// 	break;
 				}
 			} while (imChoose != mainMenu.Length);
 		}

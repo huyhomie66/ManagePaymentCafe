@@ -152,8 +152,6 @@ namespace PL_Console
 			{
 				if (table.Status == 0)
 				{
-					//Console.ForegroundColor = ConsoleColor.Red;
-
 					string stt = "empty";
 					Console.WriteLine("||{0,-11}||{1,-12}||{2,-14}||", table.Table_Id, table.TableName, stt);
 				}
@@ -288,7 +286,7 @@ namespace PL_Console
 			Console.Clear();
 			short imChoose1;
 
-			string[] order = { "Create Order", "Update Order", "Show list Order", "Exit" };
+			string[] order = { "Create Order", "Update Order", "Show list Order","PayOut", "Exit" };
 			do
 			{
 				imChoose1 = Menu("Order Management", order);
@@ -303,6 +301,9 @@ namespace PL_Console
 					case 3:
 						ShowListOrder(a, o);
 						break;
+					case 4:
+						PayoutConsole.Payout(); 
+					break;
 						
 				}
 			} while (imChoose1 != order.Length);

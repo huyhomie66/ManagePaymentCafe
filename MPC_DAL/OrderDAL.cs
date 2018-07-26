@@ -35,7 +35,6 @@ namespace MPC_DAL
 			return lod;
 		}
 
-
 		private Order GetOrderForPay(MySqlDataReader reader)
 		{
 			Order order = new Order();
@@ -51,12 +50,10 @@ namespace MPC_DAL
 			order.total = order.OrderItem.Amount * order.OrderItem.ItemPrice;
 			return order;
 		}
-
-
 		public List<Order> GetListOrderForShow()
 		{
 
-			query = @"select * from  Orders ;";
+			query = @"select * from Orders ;";
 
 			List<Order> orl = new List<Order>();
 			using (connection = DbConfiguration.OpenDefaultConnection())

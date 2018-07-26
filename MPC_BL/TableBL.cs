@@ -16,17 +16,9 @@ namespace MPC_BL
 		{
 			return tdal.GetTableById(tableId);
 		}
-		// public bool Checktablehasorder(int tableId)
-		// {
-		// 	return tdal.CheckTableForPay(tableId);
-		// }
-		// public bool UpdateTableStatus(int tableId)
-		// {
-		// 	return tdal.UpdateTableStatus(tableId);
-		// }
 		public List<Table> DisplayListTable()
 		{
-			return tdal.display();
+			return tdal.DisplayAllTable();
 		}
 	}
 }

@@ -16,7 +16,7 @@ namespace PL_Console
 		public static TableBL tbl = new TableBL();
 		public static List<Order> orl = new List<Order>();
 		public static AccountBL abl = new AccountBL();
-		public static bool Payout(Order o)
+		public static bool Payout()
 		{
 
 
