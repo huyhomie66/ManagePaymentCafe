@@ -14,6 +14,7 @@ namespace MPC_BL
 		private ItemDAL idal = new ItemDAL();
 		private TableDAL tbl = new TableDAL();
 		private AccountDAL adl = new AccountDAL();
+		
 		public bool CreateOrder(Order order)
 		{
 			bool result = Odal.CreateOrder(order);
@@ -34,9 +35,9 @@ namespace MPC_BL
 		{
 			return Odal.GetListOrderForShow();
 		}
-		public bool PayOrder(int Table_id)
+		public bool PayOrder(Table t)
 		{
-			return Odal.PayOrder(Table_id);
+			return Odal.PayOrder(t);
 		}
 
 		public Order GetOrderByTableID(Table t)

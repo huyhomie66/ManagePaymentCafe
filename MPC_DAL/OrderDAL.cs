@@ -47,7 +47,7 @@ namespace MPC_DAL
 			order.OrderItem.Amount = reader.GetInt32("quantity");
 			order.OrderAccount.Account_Id = reader.GetInt32("account_id");
 			order.OrderTable.Table_Id = reader.GetInt32("table_id");
-			order.total = order.OrderItem.Amount * order.OrderItem.ItemPrice;
+			order.Total = order.OrderItem.Amount * order.OrderItem.ItemPrice;
 			return order;
 		}
 		public List<Order> GetListOrderForShow()
@@ -89,7 +89,7 @@ namespace MPC_DAL
 		{
 			connection = DbConfiguration.OpenDefaultConnection();
 		}
-		public Order GetOrderForEdit(MySqlDataReader reader)
+		public Order GetOrderForUpdate(MySqlDataReader reader)
 		{
 			Order o = new Order();
 			o.OrderTable = new Table();
@@ -97,7 +97,7 @@ namespace MPC_DAL
 			o.OrderId = reader.GetInt32("order_id");
 			return o;
 		}
-		public bool PayOrder(int table_id)
+		public bool PayOrder(Table t)
 		{
 
 			bool result = true;
@@ -116,7 +116,7 @@ namespace MPC_DAL
 			//	MySqlDataReader reader = null;
 			try
 			{
-				cmd.CommandText = @"update Tables as t inner join Orders as o  on t.table_id = o.table_id set t.table_status = 0 , o.order_status = 1 where t.table_id = " + table_id + " and o.order_status = 0;";
+				cmd.CommandText = @"update Tables as t inner join Orders as o  on t.table_id = o.table_id set t.table_status = 0 , o.order_status = 1 where t.table_id = " + t.Table_Id + " and o.order_status = 0;";
 				cmd.ExecuteNonQuery();
 
 				trans.Commit();
@@ -139,7 +139,7 @@ namespace MPC_DAL
 			{
 				cmd.CommandText = "unlock tables;";
 				cmd.ExecuteNonQuery();
-				DBHelper.CloseConnection();
+				connection.Close();
 			}
 			return result;
 		}
@@ -205,7 +205,7 @@ namespace MPC_DAL
 			{
 				cmd.CommandText = "unlock tables;";
 				cmd.ExecuteNonQuery();
-				DBHelper.CloseConnection();
+				connection.Close();
 			}
 			return result;
 		}
@@ -301,7 +301,7 @@ namespace MPC_DAL
 			{
 				cmd.CommandText = "unlock tables;";
 				cmd.ExecuteNonQuery();
-				DBHelper.CloseConnection();
+				connection.Close();
 			}
 			return result;
 		}
@@ -316,7 +316,7 @@ namespace MPC_DAL
 				{
 					if (reader.Read())
 					{
-						o = GetOrderForEdit(reader);
+						o = GetOrderForUpdate(reader);
 					}
 					reader.Close();
 				}

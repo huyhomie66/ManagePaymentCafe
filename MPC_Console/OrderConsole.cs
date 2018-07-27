@@ -173,7 +173,9 @@ namespace PL_Console
 				}
 				else
 				{
+
 					Console.WriteLine("Cant Fins this table for Edit,pls re-enter: ");
+					
 					continue;
 				}
 			}

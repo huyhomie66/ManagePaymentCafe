@@ -10,7 +10,7 @@ namespace MPC_Persistence
 	}
 	public class Order
 	{ 
-		public decimal total{ get; set; }
+		public decimal Total{ get; set; }
 		//public decimal totalmoney {get;set;}	
 		public Item OrderItem{get;set;}
 		public int Orderstatus { get; set; }

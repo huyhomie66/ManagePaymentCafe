@@ -14,28 +14,28 @@ namespace PL_Console
 		public static void Login()
 		{
 			AccountBL account = new AccountBL();
-			Account a= new Account();
-			
+			Account a = new Account();
+
 			while (true)
 			{
-			
+
 				Console.Write("Username: ");
-				a.Username =  Console.ReadLine();
-				Console.Write("Input password: ");
+				a.Username = Console.ReadLine();
+				Console.Write("Password: ");
 				a.Password = Validate.hidenpassword();
-				var result =account.login(a.Username, a.Password);
+				var result = account.login(a.Username, a.Password);
 				if (result != null)
 				{
-					Console.WriteLine("login successfully!!!");
+					Console.WriteLine("Login successfully!!!");
 					Program.CafeManagementSystem(account.login(a.Username, a.Password));
 					break;
 				}
-				else if(result == null)
+				else if (result == null)
 				{
-					Console.WriteLine("Wrong value, pls re-enter ");		
+					Console.WriteLine("Wrong Username or Password, please re-enter: ");
 				}
 			}
-			
+
 		}
 	}
 }

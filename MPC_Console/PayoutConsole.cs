@@ -43,7 +43,7 @@ namespace PL_Console
 			Console.WriteLine("||============================================||");
 			foreach (var order in orl)
 			{
-				Console.WriteLine("||{0,-9}||{1,-12}||{2,-10}||{3,-7}||", order.OrderItem.ItemId, order.OrderItem.ItemPrice, order.OrderItem.Amount, order.total);
+				Console.WriteLine("||{0,-9}||{1,-12}||{2,-10}||{3,-7}||", order.OrderItem.ItemId, order.OrderItem.ItemPrice, order.OrderItem.Amount, order.Total);
 			}
 			Console.WriteLine("||============================================||");
 			decimal totalmoney = obl.Total(orl, t.Table_Id);
@@ -59,7 +59,7 @@ namespace PL_Console
 			{
 				if (Money == grandtotal)
 				{
-					Console.WriteLine("||Pay Order: " + (obl.PayOrder(t.Table_Id) ? "successfully!" : "not successfully!"));
+					Console.WriteLine("||Pay Order: " + (obl.PayOrder(t) ? "successfully!" : "not successfully!"));
 					break;
 				}
 				else if (Money < grandtotal)
@@ -70,7 +70,7 @@ namespace PL_Console
 					decimal a = Convert.ToDecimal(Console.ReadLine());
 					if (a == moneyshortage)
 					{
-						Console.WriteLine("||Pay Order: " + (obl.PayOrder(t.Table_Id) ? "successfully!" : "not successfully!"));
+						Console.WriteLine("||Pay Order: " + (obl.PayOrder(t) ? "successfully!" : "not successfully!"));
 						break;
 					}
 					else
@@ -81,8 +81,8 @@ namespace PL_Console
 				else if (Money > grandtotal)
 				{
 					decimal excesscash = Money - grandtotal;
-					Console.WriteLine("||Excess Cash: " + excesscash.ToString("F3", CultureInfo.InvariantCulture) + "VND");
-					Console.WriteLine("||Pay Order: " + (obl.PayOrder(t.Table_Id) ? "successfully!" : "not successfully!"));
+					Console.WriteLine("||Excess Cash = {0:C} ",  excesscash);
+					Console.WriteLine("||Pay Order: " + (obl.PayOrder(t) ? "successfully!" : "not successfully!"));
 					break;
 
 				}

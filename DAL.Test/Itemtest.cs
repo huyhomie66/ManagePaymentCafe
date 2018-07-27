@@ -10,11 +10,12 @@ namespace DAL.Test
 		private ItemDAL itdal = new ItemDAL();
 		
 		[Fact]
-		public void TestItem1()
+		public void GetItemByIdTest()
 		{
 			Item i = itdal.GetItemById(99);
 			Assert.Null(i);
 		}
+		
 	}
 
 

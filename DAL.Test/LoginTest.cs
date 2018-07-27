@@ -15,7 +15,6 @@ namespace DAL.Test
 			string username = "staff1";
 			string password = "123456";
 			Account a = acdal.Login(username, password);
-
 			Assert.NotNull(a);
 			Assert.Equal(username, a.Username);
 		}
@@ -24,17 +23,17 @@ namespace DAL.Test
 		{
 			Assert.Null(acdal.Login("customer_01", "123456789"));
 		}
-        [Fact]
-        public void LoginTest4()
-        {
-            Assert.Null(acdal.Login("'?^%'", "'.:=='"));
-        }
 		[Fact]
-		public void TestCheckId()
+		public void LoginTest4()
+		{
+			Assert.Null(acdal.Login("'?^%'", "'.:=='"));
+		}
+		[Fact]
+		public void TestCheckAccountById()
 		{
 			int accountId = 10;
 			Account a = acdal.CheckAccountById(accountId);
-			Assert.Null(a);		
+			Assert.Null(a);
 		}
 	}
 }

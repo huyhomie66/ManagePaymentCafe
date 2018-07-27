@@ -38,20 +38,6 @@ namespace PL_Console
 			}
 			return sb.ToString();
 		}
-        // public bool Input1(string str, int status)
-        // {
-        //     if (status == 0)
-        //     {
-        //         Regex regex = new Regex("[a-zA-Z0-9_]");
-        //         MatchCollection matchCollectionstr = regex.Matches(str);
-        //         if (matchCollectionstr.Count < str.Length)
-        //         {
-        //             return false;
-        //         }
-        //         return true;
-        //     }
-        //     return false;
-        // }
 
         
         public static int InputInt(string a)
@@ -65,18 +51,6 @@ namespace PL_Console
                 matchCollectionstr = regex.Matches(a);
             }
             return Convert.ToInt32(a);
-        }
-      public static string InputToString(string a)
-        {
-            Regex regex = new Regex("[a-zA-Z]");
-            MatchCollection matchCollectionstr = regex.Matches(a);
-            while ( (a != "s" && a != "t" && a != "a" && a != "f" && a!="1") )
-            {
-                Console.Write("Wrong value, please re-enter: ");
-                a = Console.ReadLine();
-                matchCollectionstr = regex.Matches(a);           
-            }
-            return Convert.ToString(a);
         }
 
         public static char InputToChar(string a)
