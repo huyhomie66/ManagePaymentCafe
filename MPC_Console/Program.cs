@@ -9,12 +9,8 @@ namespace PL_Console
 {
 	class Program
 	{
-		PayoutConsole pc = new PayoutConsole();
-		OrderConsole oc = new OrderConsole();
-		LoginConsole lc = new LoginConsole();
 		static void Main(string[] args)
 		{
-
 			MENU();
 		}
 		public static void MENU()
@@ -23,13 +19,11 @@ namespace PL_Console
 			string[] login = { "Login", "Exit." };
 			do
 			{
-				mainChoose = OrderConsole.Menu("Welcome to Cafe Management System !", login);
+				mainChoose = Validate.Menu("Welcome to Cafe Management System !", login);
 				switch (mainChoose)
 				{
-
 					case 1:
 						LoginConsole.Login();
-						// CafeManagementSystem();
 						break;
 				}
 			} while (mainChoose != login.Length);
@@ -37,21 +31,17 @@ namespace PL_Console
 		}
 		public static void CafeManagementSystem(Account a)
 		{
-			Order o = new Order();
+			Console.Clear();
 			short imChoose;
 			string[] mainMenu = { "Order Management", "Exit" };
 			do
 			{
-				imChoose = OrderConsole.Menu(" Cafe Management System ", mainMenu);
+				imChoose = Validate.Menu(" Cafe Management System ", mainMenu);
 				switch (imChoose)
 				{
 					case 1:
-						OrderConsole.Order(a,o); 
+						OrderConsole.MenuOrder(a); 
 						break;
-
-					// case 2:
-					// 	PayoutConsole.Payout(o);
-					// 	break;
 				}
 			} while (imChoose != mainMenu.Length);
 		}

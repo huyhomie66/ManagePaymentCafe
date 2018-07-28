@@ -89,14 +89,14 @@ insert into Items(item_price,item_name) values
 	(4.50, 'capuchino'),
 	(4.50, 'caramel'),
 	(4.50, 'mocha'), 
-    (5.00, 'Irish Coffee (Whiskey)'),
-    (4.60, 'Brandy Coffee (Brandy)'),
-    (5.00, 'Mendoza (Tia Maria and Tequila)'),
-    (4.00, 'Keoke Coffee (Brandy) '),
-    (6.00, 'Calypso Coffee ( Rum) '),
-    (7.80, 'Jamaican Coffee (Tia Maria & Rum) '),
-    (9.00,'Shin Shin Coffee (Rum)'),
-    (5.00, 'Baileys Irish Cream Coffee '),
+    (5.00, 'Irish Coffee'),
+    (4.60, 'Brandy Coffee'),
+    (5.00, 'Mendoza'),
+    (4.00, 'Keoke Coffee'),
+    (6.00, 'Calypso Coffee'),
+    (7.80, 'Jamaican Coffee'),
+    (9.00,'Shin Shin Coffee'),
+    (5.00, 'Irish Cream Coffee'),
     (7.00, 'Corned Beef'),
 	(1.00, 'coca'),
     (1.00, 'pepsi'),
@@ -122,6 +122,7 @@ select * from Tables;
 select *from OrderDetails; 
 /*insert into OrderDetails( item_id ,item_price  ,quantity ) values( 1, 8,9),(1,9,8);*/
 select *from Orders; 
+select *from Tables  inner join Orders;
 
 
    delimiter $$
@@ -134,7 +135,7 @@ create trigger tg_CheckAmount
         end if;
     end $$
 delimiter ;
-
+select *from Tables;
 
 /*SELECT DISTINCT  
    item_id,

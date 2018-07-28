@@ -11,17 +11,13 @@ namespace MPC_Persistence
 	public class Order
 	{ 
 		public decimal Total{ get; set; }
-		//public decimal totalmoney {get;set;}	
-		public Item OrderItem{get;set;}
 		public int Orderstatus { get; set; }
-
 		public int OrderId { get; set; }
 		public DateTime OrderDate { get; set; }
+		public Item OrderItem{get;set;}
 		public Table OrderTable { get; set; }
 		public List<Order> OrderList{get;set;}
 		public List<Item> ItemsList { get; set; }
-		// public List<Table> TableList{get;set;}
-		// public List<Account> Accountlist{get;set;}
 		public Account OrderAccount {get;set;}
 	
 

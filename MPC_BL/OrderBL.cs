@@ -40,9 +40,13 @@ namespace MPC_BL
 			return Odal.PayOrder(t);
 		}
 
-		public Order GetOrderByTableID(Table t)
+		public Order GetOrderByTableIDForUpdate(Table t)
 		{
-			return Odal.GetOrderByTable(t);
+			return Odal.GetOrderByTableForUpdate(t);
+		}
+		public Order GetOrderByTableID(int Table_id)
+		{
+			return Odal.GetOrderByTableId(Table_id);
 		}
 		public void AddItemToOrder(int itemid, int quantity, Order order)
 		{
