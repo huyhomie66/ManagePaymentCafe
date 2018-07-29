@@ -30,6 +30,7 @@ namespace PL_Console
 			DateTime now = DateTime.Now;
 			o.OrderTable = new Table();
 			o.OrderAccount = new Account();
+			Console.WriteLine("||=========================================||");
 			Console.WriteLine("|| Table Id  || Table Name || Table Status ||");
 			foreach (var table in tbl.DisplayListTable())
 			{
@@ -44,20 +45,34 @@ namespace PL_Console
 					Console.WriteLine("||{0,-11}||{1,-12}||{2,-14}||", table.Table_Id, table.TableName, stt);
 				}
 			}
+			Console.WriteLine("||=========================================||");
 			while (true)
 			{
-				Console.WriteLine("Input table Id: ");
+				Console.WriteLine("Input Table Id For Create Order: ");
 				t.Table_Id = Validate.InputInt(Console.ReadLine());
-				var result = tbl.CheckTableEmtpyById(t.Table_Id);
-				if (result == true)
+				var result = tbl.GetTableById(t.Table_Id);
+				if (result != null)
 				{
 					t = tbl.GetTableById(t.Table_Id);
 					break;
 				}
 				else
 				{
-					Console.WriteLine("Cant Find this table or this table has some one, please re-enter: ");
-					continue;
+					Console.WriteLine("Cant Find this table or this table has some one!!!");
+					Console.WriteLine("Do you want to try again ?(Y/N)");
+					char choice1 = Validate.InputToChar(Console.ReadLine());
+					switch (choice1)
+					{
+						case 'y':
+							continue;
+						case 'Y':
+							continue;
+						default:
+							Console.WriteLine("Press any key to back the menu: ");
+							Console.ReadKey();
+							OrderConsole.MenuOrder(a);
+							break;
+					}
 				}
 			}
 			o.OrderAccount.Account_Id = a.Account_Id;
@@ -142,6 +157,7 @@ namespace PL_Console
 			DateTime now = DateTime.Now;
 			o.OrderTable = new Table();
 			o.OrderAccount = new Account();
+			Console.WriteLine("||=========================================||");
 			Console.WriteLine("|| Table Id  || Table Name || Table Status ||");
 			foreach (var table in tbl.DisplayListTable())
 			{
@@ -156,6 +172,7 @@ namespace PL_Console
 					Console.WriteLine("||{0,-11}||{1,-12}||{2,-14}||", table.Table_Id, table.TableName, stt);
 				}
 			}
+			Console.WriteLine("||=========================================||");
 			while (true)
 			{
 				Console.WriteLine("Input Table Id for Update: ");
@@ -168,10 +185,32 @@ namespace PL_Console
 				}
 				else
 				{
+					Console.WriteLine("Cant Find this table for Update, do you want to try again? : ");
+					char choice4 = Validate.InputToChar(Console.ReadLine());
+					switch (choice4)
+					{
+						case 'y':
+							continue;
 
-					Console.WriteLine("Cant Find this table for Update ,please re-enter: ");
+						case 'Y':
+							continue;
 
-					continue;
+						case 'n':
+							Console.Write("Press any key to back the menu: ");
+							Console.ReadKey();
+							MenuOrder(a);
+							break;
+						case 'N':
+							Console.Write("Press any key to back the menu: ");
+							Console.ReadKey();
+							MenuOrder(a);
+							break;
+						default:
+							Console.Write("Press any key to back the menu: ");
+							Console.ReadKey();
+							MenuOrder(a);
+							break;
+					}
 				}
 			}
 			while (true)
@@ -271,7 +310,25 @@ namespace PL_Console
 		}
 		public static void Delete()
 		{
-
+			Console.WriteLine("||=========================================||");
+			Console.WriteLine("|| Table Id  || Table Name || Table Status ||");
+			foreach (var table in tbl.DisplayListTable())
+			{
+				if (table.Status == 0)
+				{
+					string stt = "empty";
+					Console.WriteLine("||{0,-11}||{1,-12}||{2,-14}||", table.Table_Id, table.TableName, stt);
+				}
+				else if (table.Status == 1)
+				{
+					string stt = "has some one";
+					Console.WriteLine("||{0,-11}||{1,-12}||{2,-14}||", table.Table_Id, table.TableName, stt);
+				}
+			}
+			Console.WriteLine("||=========================================||");
+			Console.Write("Input id table to delete order: ");
+			int tableid = Convert.ToInt32(Console.ReadLine());
+			obl.cancel(tableid);
 		}
 
 		public static void MenuOrder(Account a)
@@ -279,7 +336,7 @@ namespace PL_Console
 			Console.Clear();
 			short imChoose1;
 
-			string[] order = { "Create Order", "Update Order", "Show list Order", "PayOut", "Exit" };
+			string[] order = { "Create Order", "Update Order", "Show list Order", "PayOut", "Delete", "Exit" };
 			do
 			{
 				imChoose1 = Validate.Menu("Order Management", order);
@@ -297,7 +354,13 @@ namespace PL_Console
 					case 4:
 						PayoutConsole.Payout();
 						break;
-					
+					case 5:
+						Delete();
+						break;
+					case 6:
+						Program.MENU();
+						break;
+
 
 				}
 			} while (imChoose1 != order.Length);

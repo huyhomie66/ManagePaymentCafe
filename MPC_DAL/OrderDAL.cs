@@ -114,7 +114,7 @@ namespace MPC_DAL
 			o.OrderId = reader.GetInt32("order_id");
 			return o;
 		}
-		public bool PayOrder(Table t)
+		public bool PayOrder(Table t,int account_id)
 		{
 
 			bool result = true;
@@ -133,7 +133,7 @@ namespace MPC_DAL
 			//	MySqlDataReader reader = null;
 			try
 			{
-				cmd.CommandText = @"update Tables as t inner join Orders as o  on t.table_id = o.table_id set t.table_status = 0 , o.order_status = 1 where t.table_id = " + t.Table_Id + " and o.order_status = 0;";
+				cmd.CommandText = @"update Tables as t inner join Orders as o  on t.table_id = o.table_id set t.table_status = 0 , o.order_status = 1 where t.table_id = " + t.Table_Id + " and o.order_status = 0 and o.account_id="+account_id+";";
 				cmd.ExecuteNonQuery();
 
 				trans.Commit();
@@ -292,8 +292,7 @@ namespace MPC_DAL
 					cmd.CommandText = @"insert into OrderDetails( order_id,item_id, item_price, quantity )values 
                             ( " + order.OrderId + "," + item.ItemId + ", " + item.ItemPrice + ", " + item.Amount + ");";
 					cmd.ExecuteNonQuery();
-
-					//	cmd.CommandText = @"UPDATE OrderDetails SET quantity=quantity+" + item.Amount + " WHERE item_id=" + item.ItemId + " and where order_id=" + order.OrderId + ";";
+					
 					//update amount in Items
 					cmd.CommandText = "update Items set  amount= amount - " + item.Amount + "  where item_id=" + item.ItemId + ";";
 					cmd.ExecuteNonQuery();
@@ -341,5 +340,51 @@ namespace MPC_DAL
 			return o;
 		}
 
+		public bool cancel(int tableid)
+		{
+
+			bool result = true;
+
+			if (connection.State == System.Data.ConnectionState.Closed)
+			{
+				connection.Open();
+			}
+
+			MySqlCommand cmd = connection.CreateCommand();
+			cmd.Connection = connection;
+			cmd.CommandText = "lock tables Account write, Tables write, Orders write, Items write, OrderDetails write;";
+			cmd.ExecuteNonQuery();
+			MySqlTransaction trans = connection.BeginTransaction();
+			cmd.Transaction = trans;
+			//	MySqlDataReader reader = null;
+			try
+			{
+				cmd.CommandText = @"update Tables as t inner join Orders as o  on t.table_id = o.table_id set t.table_status = 0 , o.order_status = 2 where t.table_id = " +tableid + " and o.order_status = 0;";
+				cmd.ExecuteNonQuery();
+
+				trans.Commit();
+				result = true;
+
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine(ex.Message);
+				result = false;
+				try
+				{
+					trans.Rollback();
+				}
+				catch
+				{
+				}
+			}
+			finally
+			{
+				cmd.CommandText = "unlock tables;";
+				cmd.ExecuteNonQuery();
+				connection.Close();
+			}
+			return result;
+		}
 	}
 }

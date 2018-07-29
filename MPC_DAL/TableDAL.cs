@@ -29,7 +29,7 @@ namespace MPC_DAL
 			}
 			return tablelist;
 		}
-	
+
 		public Table GetTableById(int tableId)
 		{
 			query = @"select table_id,table_status,table_name from Tables where table_id = " + tableId + " ;";
@@ -48,26 +48,26 @@ namespace MPC_DAL
 			}
 			return t;
 		}
-		
-		public bool CheckTableForPay(int tableid)
-		{
-			query = @"select * from Tables  where table_id =" + tableid + "  and table_status=1 ;";
-			bool t = false;
-			using (connection = DbConfiguration.OpenDefaultConnection())
-			{
-				MySqlCommand cmd = new MySqlCommand(query, connection);
-				using (reader = cmd.ExecuteReader())
-				{
-					if (reader.Read())
-					{
-						t = true;
-					}
 
-					reader.Close();
-				}
-			}
-			return t;
-		}
+		// public bool CheckTableForPay(int tableid)
+		// {
+		// 	query = @"select * from Tables  where table_id =" + tableid + "  and table_status = 1 ;";
+		// 	bool t = false;
+		// 	using (connection = DbConfiguration.OpenDefaultConnection())
+		// 	{
+		// 		MySqlCommand cmd = new MySqlCommand(query, connection);
+		// 		using (reader = cmd.ExecuteReader())
+		// 		{
+		// 			if (reader.Read())
+		// 			{
+		// 				t = true;
+		// 			}
+
+		// 			reader.Close();
+		// 		}
+		// 	}
+		// 	return t;
+		// }
 		public bool CheckTableById(int tableid)
 		{
 			query = @"select * from Tables where table_id = " + tableid + " and table_status =0;";

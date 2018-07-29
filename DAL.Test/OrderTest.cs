@@ -84,8 +84,9 @@ namespace DAL.Test
 		public void PayTestTrue()
 		{
 			Table t = new Table();
+			int accountid = 1;
 			t.Table_Id = 11;
-			bool result = odal.PayOrder(t);
+			bool result = odal.PayOrder(t, accountid);
 			Assert.True((bool)result);
 		}
 
@@ -93,8 +94,9 @@ namespace DAL.Test
 		public void PayTestFalse()
 		{
 			Table t = new Table();
-			t.Table_Id=-1;
-			bool result = odal.PayOrder(t);
+			int accountid = 11;
+			t.Table_Id = -1;
+			bool result = odal.PayOrder(t, accountid);
 			Assert.False((bool)result);
 
 		}
@@ -126,16 +128,5 @@ namespace DAL.Test
 			List<Order> result = odal.GetListOrderForShow();
 			Assert.NotNull(result);
 		}
-		[Fact]
-		public void TestPayOut()
-		{
-			Table t = new Table();
-			t.Table_Id = 13;
-			bool result = odal.PayOrder(t);
-			Assert.False(result);
-		}
-
 	}
-
-
 }

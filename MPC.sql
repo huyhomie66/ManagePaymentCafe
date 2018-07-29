@@ -131,7 +131,7 @@ create trigger tg_CheckAmount
 	for each row
 	begin
 		if new.amount < 0 then
-            signal sqlstate '45001' set message_text = 'This item out of stock!!!';
+            signal sqlstate '45001' set message_text = 'some item out of stock!!!';
         end if;
     end $$
 delimiter ;

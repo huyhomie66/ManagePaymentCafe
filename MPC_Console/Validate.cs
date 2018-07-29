@@ -19,7 +19,7 @@ namespace PL_Console
 			Console.WriteLine(line);
 			for (int i = 0; i < menuItems.Length; i++)
 			{
-				Console.WriteLine(" " + (i + 1) + ". " + menuItems[i]);
+				Console.WriteLine(" " + (i+1) + ". " + menuItems[i]);
 			}
 			Console.WriteLine(line);
 			do
@@ -92,7 +92,7 @@ namespace PL_Console
 			}
 			return Convert.ToChar(a);
 		}
-		public static int InputToDeciaml(decimal a)
+		public static string InputToDeciaml(decimal a)
 		{
 			string prices = a.ToString();
 			string price = "";
@@ -112,7 +112,7 @@ namespace PL_Console
 					price = price + prices[i].ToString();
 				}
 			}
-			return Convert.ToInt32(price);
+			return price;
 		}
 	}
 }

@@ -35,9 +35,9 @@ namespace MPC_BL
 		{
 			return Odal.GetListOrderForShow();
 		}
-		public bool PayOrder(Table t)
+		public bool PayOrder(Table t,int accountId)
 		{
-			return Odal.PayOrder(t);
+			return Odal.PayOrder(t,accountId);
 		}
 
 		public Order GetOrderByTableIDForUpdate(Table t)
@@ -71,6 +71,10 @@ namespace MPC_BL
 				totalmoney = totalmoney + o.OrderItem.ItemPrice * o.OrderItem.Amount;
 			}
 			return totalmoney;
+		}
+		public bool cancel(int tableid)
+		{
+			return Odal.cancel(tableid);
 		}
 	}
 }
